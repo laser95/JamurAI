@@ -1,28 +1,28 @@
 # samurai18-19_practice
 ***
-##‰^—p•û–@‚É‚Â‚¢‚Ä  
-Issue–ˆ‚Éƒ[ƒJƒ‹ƒŠƒ|ƒWƒgƒŠ‚Éƒuƒ‰ƒ“ƒ`‚ðì¬  
-ƒ[ƒJƒ‹ƒŠƒ|ƒWƒgƒŠ“à‚Åƒ}[ƒW‚µ‚½‚Ì‚¿CƒŠƒ‚[ƒgƒŠƒ|ƒWƒgƒŠ‚ÌŒÂl‚Ìƒuƒ‰ƒ“ƒ`‚ÉƒvƒbƒVƒ…  
-‚½‚¾‚µƒvƒbƒVƒ…‚·‚é‘O‚ÉƒŠƒ‚[ƒgƒŠƒ|ƒWƒgƒŠ‚Ìƒuƒ‰ƒ“ƒ`‚ðƒ[ƒJƒ‹ƒŠƒ|ƒWƒgƒŠ‚Éƒvƒ‹  
+## é‹ç”¨æ–¹æ³•ã«ã¤ã„ã¦  
+Issueæ¯Žã«ãƒ­ãƒ¼ã‚«ãƒ«ãƒªãƒã‚¸ãƒˆãƒªã«ãƒ–ãƒ©ãƒ³ãƒã‚’ä½œæˆ  
+ãƒ­ãƒ¼ã‚«ãƒ«ãƒªãƒã‚¸ãƒˆãƒªå†…ã§ãƒžãƒ¼ã‚¸ã—ãŸã®ã¡ï¼Œãƒªãƒ¢ãƒ¼ãƒˆãƒªãƒã‚¸ãƒˆãƒªã®å€‹äººã®ãƒ–ãƒ©ãƒ³ãƒã«ãƒ—ãƒƒã‚·ãƒ¥  
+ãŸã ã—ãƒ—ãƒƒã‚·ãƒ¥ã™ã‚‹å‰ã«ãƒªãƒ¢ãƒ¼ãƒˆãƒªãƒã‚¸ãƒˆãƒªã®ãƒ–ãƒ©ãƒ³ãƒã‚’ãƒ­ãƒ¼ã‚«ãƒ«ãƒªãƒã‚¸ãƒˆãƒªã«ãƒ—ãƒ«  
 ***
-##ƒRƒ}ƒ“ƒh‚É‚Â‚¢‚Ä  
+## ã‚³ãƒžãƒ³ãƒ‰ã«ã¤ã„ã¦  
 
-#Å‰‚É‚â‚é‚±‚Æ  
-1. ƒ[ƒJƒ‹PC‚Égithub—p‚ÌƒfƒBƒŒƒNƒgƒŠ‚ðì¬  
-2. git clone https://github.com/laser95/samurai18-19_practice.git ‚ðŠY“–ƒfƒBƒŒƒNƒgƒŠ“à‚Å“ü—Í  
-3. V‚µ‚¢ƒfƒBƒŒƒNƒgƒŠ‚ª‚Å‚«‚Ä‚¢‚é‚Í‚¸‚È‚Ì‚ÅˆÚ“®  
-4. git init ‚ð“ü—Í  
-5. git fetch ‚ð“ü—Í  
+### æœ€åˆã«ã‚„ã‚‹ã“ã¨  
+1. ãƒ­ãƒ¼ã‚«ãƒ«PCã«githubç”¨ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ä½œæˆ  
+2. git clone https://github.com/laser95/samurai18-19_practice.git ã‚’è©²å½“ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå†…ã§å…¥åŠ›  
+3. æ–°ã—ã„ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒã§ãã¦ã„ã‚‹ã¯ãšãªã®ã§ç§»å‹•  
+4. git init ã‚’å…¥åŠ›  
+5. git fetch ã‚’å…¥åŠ›  
 
-##•ÒW‚©‚ç’Ç‰Á‚Ì—¬‚ê  
-1D git checkout -b [ƒuƒ‰ƒ“ƒ`–¼] ƒuƒ‰ƒ“ƒ`‚Íƒ[ƒJƒ‹ƒŠƒ|ƒWƒgƒŠ‚Ìƒuƒ‰ƒ“ƒ`(ƒ^ƒXƒN‚Æ‘Î‰ž‚³‚¹‚½‚Ù‚¤‚ª‚¢‚¢‚ÆŽv‚¤)  
-2D ƒtƒ@ƒCƒ‹‚ð•ÒW  
-3D git add [(ƒfƒBƒŒƒNƒgƒŠ–¼/)ƒtƒ@ƒCƒ‹–¼]  
-4D git commit -m g[ƒRƒƒ“ƒg]h  
-5D git checkout master  
-6D git pull origin [ŒÂl‚Ìƒuƒ‰ƒ“ƒ`–¼] ƒuƒ‰ƒ“ƒ`‚ÍƒŠƒ‚[ƒgƒŠƒ|ƒWƒgƒŠ‚Ìƒuƒ‰ƒ“ƒ`  
-7D git merge [ƒuƒ‰ƒ“ƒ`–¼]  
-8D ‹£‡‚µ‚½‚çŽè“®‚Å‚ª‚ñ‚Î‚é(‹£‡‚µ‚È‚©‚Á‚½Ž©“®)  
-9D git remote add [ŒÂl‚Ìƒuƒ‰ƒ“ƒ`–¼] https://github.com/laser95/samurai18-19_practice.git ƒuƒ‰ƒ“ƒ`‚ÍƒŠƒ‚[ƒgƒŠƒ|ƒWƒgƒŠ‚Ìƒuƒ‰ƒ“ƒ`  
-10D git push origin [ŒÂl‚Ìƒuƒ‰ƒ“ƒ`–¼] ƒuƒ‰ƒ“ƒ`‚ÍƒŠƒ‚[ƒgƒŠƒ|ƒWƒgƒŠ‚Ìƒuƒ‰ƒ“ƒ` 
-11D ƒ^ƒXƒN‚ªI—¹‚µ‚½‚ç git branch -d [ƒuƒ‰ƒ“ƒ`–¼] ƒuƒ‰ƒ“ƒ`‚Íƒ[ƒJƒ‹ƒŠƒ|ƒWƒgƒŠ‚Ìƒuƒ‰ƒ“ƒ`  
+### ç·¨é›†ã‹ã‚‰è¿½åŠ ã®æµã‚Œ  
+1ï¼Ž git checkout -b [ãƒ–ãƒ©ãƒ³ãƒå] ãƒ–ãƒ©ãƒ³ãƒã¯ãƒ­ãƒ¼ã‚«ãƒ«ãƒªãƒã‚¸ãƒˆãƒªã®ãƒ–ãƒ©ãƒ³ãƒ(ã‚¿ã‚¹ã‚¯ã¨å¯¾å¿œã•ã›ãŸã»ã†ãŒã„ã„ã¨æ€ã†)  
+2ï¼Ž ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç·¨é›†  
+3ï¼Ž git add [(ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå/)ãƒ•ã‚¡ã‚¤ãƒ«å]  
+4ï¼Ž git commit -m â€œ[ã‚³ãƒ¡ãƒ³ãƒˆ]â€  
+5ï¼Ž git checkout master  
+6ï¼Ž git pull origin [å€‹äººã®ãƒ–ãƒ©ãƒ³ãƒå] ãƒ–ãƒ©ãƒ³ãƒã¯ãƒªãƒ¢ãƒ¼ãƒˆãƒªãƒã‚¸ãƒˆãƒªã®ãƒ–ãƒ©ãƒ³ãƒ  
+7ï¼Ž git merge [ãƒ–ãƒ©ãƒ³ãƒå]  
+8ï¼Ž ç«¶åˆã—ãŸã‚‰æ‰‹å‹•ã§ãŒã‚“ã°ã‚‹(ç«¶åˆã—ãªã‹ã£ãŸè‡ªå‹•)  
+9ï¼Ž git remote add [å€‹äººã®ãƒ–ãƒ©ãƒ³ãƒå] https://github.com/laser95/samurai18-19_practice.git ãƒ–ãƒ©ãƒ³ãƒã¯ãƒªãƒ¢ãƒ¼ãƒˆãƒªãƒã‚¸ãƒˆãƒªã®ãƒ–ãƒ©ãƒ³ãƒ  
+10ï¼Ž git push origin [å€‹äººã®ãƒ–ãƒ©ãƒ³ãƒå] ãƒ–ãƒ©ãƒ³ãƒã¯ãƒªãƒ¢ãƒ¼ãƒˆãƒªãƒã‚¸ãƒˆãƒªã®ãƒ–ãƒ©ãƒ³ãƒ 
+11ï¼Ž ã‚¿ã‚¹ã‚¯ãŒçµ‚äº†ã—ãŸã‚‰ git branch -d [ãƒ–ãƒ©ãƒ³ãƒå] ãƒ–ãƒ©ãƒ³ãƒã¯ãƒ­ãƒ¼ã‚«ãƒ«ãƒªãƒã‚¸ãƒˆãƒªã®ãƒ–ãƒ©ãƒ³ãƒ  
