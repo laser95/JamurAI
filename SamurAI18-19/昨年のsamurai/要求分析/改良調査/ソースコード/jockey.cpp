@@ -63,6 +63,7 @@ static long long cal(const PlayerState& me, const PlayerState& rv, const History
 }
 
 const long long INF = 1LL << 60;
+int left_border;
 using State = pair<int, pair<PlayerState, PlayerState>>;
 map<State, pair<long long, IntVec>> memo;
 
@@ -81,15 +82,22 @@ static pair<long long, IntVec> alpha_beta(const RaceState& rs, const Course& cou
     }
     return { cal(me, rv, hist, depth, rs, course), myBestAction };
   }
+  int priority = 1;
+  if (me.position.x <= left_border)priority = -1;
   for (int my = 1; -1 <= my; --my) {
     // limit velocity
     if (me.velocity.y + my > course.vision / 2) {
       continue;
     }
-    for (int mx = -1; mx <= 1; ++mx) {
+	int roop_count = 0;
+	for (int mx = -1 * priority; roop_count < 3; mx += priority) {
+	  roop_count++;
       long long gamma = beta;
+	  int rv_priority = 1;
+	  if (rv.position.x <= left_border)rv_priority = -1;
       for (int ey = 1; -1 <= ey; --ey) {
-        for (int ex = -1; ex <= 1; ++ex) {
+		int rv_roop_count = 0;
+        for (int ex = -1 * rv_priority; rv_roop_count < 3; ex += rv_priority) {
           PlayerState nextMe = me;
           nextMe.velocity.x += mx;
           nextMe.velocity.y += my;
@@ -234,18 +242,7 @@ static void bfs(const RaceState& rs, const Course& course)
 		}
 	}
   }
-  for (int x = 0; x < course.width; x++) {
-	  if (course.obstacle[ymax][x] == ObstState::OBSTACLE) {
-		  bfsed[Point(x, ymax + 1)] = course.width - 15;
-	  }
-	  else {
-		  bfsed[Point(x, ymax + 1)] = bfsed[Point(x, ymax)] - 15;
-	  }
-	  if (x == 0 || x == course.width - 1) {
-		  bfsed[Point(x, ymax + 1)] = bfsed[Point(x, ymax + 1)] + 2;
-	  }
-  }
-  for (int y = ymax + 2; y < course.length + course.vision; y++) {
+  for (int y = ymax + 1; y < course.length + course.vision; y++) {
     for (int x = 0; x < course.width; x++) {
       bfsed[Point(x, y)] = bfsed[Point(x, y - 1)] - 15;
     }
@@ -307,6 +304,7 @@ int main() {
   Course course(cin);
   cout << 0 << endl;
   cout.flush();
+  left_border = (int)((course.width - 1) / 3);
   while (true) {
     RaceState rs(cin, course);
     IntVec accel = play(rs, course);
