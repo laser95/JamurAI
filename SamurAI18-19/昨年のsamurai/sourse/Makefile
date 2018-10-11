@@ -1,3 +1,4 @@
+export BOOST_LIB_SUFFIX=-mt
 subdirs := OFFICIAL PLAYER
 .PHONY: all $(subdirs)
 all:  $(subdirs)
