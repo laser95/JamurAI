@@ -1,13 +1,13 @@
 CXXFLAGS= -pthread -std=c++11 -W -Wall -O2 -march=native
 CXX= c++
 
-OBJECTS_JOCKY= jocky.o raceState.o
+OBJECTS_JOCKEY= jockey.o raceState.o
 
-TARGET_JOCKY= jocky
+TARGET_JOCKEY= jockey
 
-all: ${TARGET_JOCKY}
+all: ${TARGET_JOCKEY}
 
-${TARGET_JOCKY}: ${OBJECTS_JOCKY}
+${TARGET_JOCKEY}: ${OBJECTS_JOCKEY}
 	${CXX} ${CXXFLAGS} -o $@ $^ ${AM_LDFLAGS}
 
 -include ${OBJECTS:.o=.d}
@@ -22,4 +22,4 @@ clean:
 	rm -rf *~ */*~ \#*\#
 
 distclean: clean
-	rm -f ${TARGET_JOCKY}
+	rm -f ${TARGET_JOCKEY}
