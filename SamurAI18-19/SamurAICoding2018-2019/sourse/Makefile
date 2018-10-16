@@ -1,4 +1,5 @@
-subdirs := DOCUMENTS OFFICIAL PLAYER VIEWER EDITOR SAMPLES
+export BOOST_LIB_SUFFIX=-mt
+subdirs := DOCUMENTS OFFICIAL PLAYER VIEWER EDITOR SAMPLES DEVELOPMENT
 .PHONY: all $(subdirs)
 all:  $(subdirs)
 
@@ -7,6 +8,9 @@ OFFICIAL:
 
 PLAYER:
 	cd player; make
+
+SAMPLES:
+	cd developmentJocker; make
 
 DOCUMENTS:
 
@@ -30,6 +34,7 @@ clean:
 	cd viewer; make clean
 	cd editor; make clean
 	cd samples; make clean
+	cd developmentJocker; make clean
 
 distclean:
 	rm -rf *~ */*~ \#*\# TAGS
@@ -39,3 +44,4 @@ distclean:
 	cd viewer; make distclean
 	cd editor; make distclean
 	cd samples; make distclean
+	cd developmentJocker; make distclean
