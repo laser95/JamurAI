@@ -16,7 +16,6 @@ struct IntVec {
 typedef IntVec Position;
 typedef IntVec Velocity;
 typedef IntVec Acceleration;
-
 struct RaceCourse {
   uint64_t thinkTime;
   int stepLimit;
