@@ -97,7 +97,7 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
           const Movement enMove(rv.position, nextRv.position);
           list <Position> enTouched = enMove.touchedSquares();
           bool stopped = false;
-          if (none_of(myTouched.begin(), myTouched.end(),
+          if (!none_of(myTouched.begin(), myTouched.end(),
                   [rs, course](Position s) {
                     return
                       0 <= s.y &&
@@ -109,7 +109,7 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
             stopped |= true;
           }
           if (rv.position.y >= course.length
-            || none_of(enTouched.begin(), enTouched.end(),
+            || !none_of(enTouched.begin(), enTouched.end(),
                     [rs, course](Position s) {
                       return
                         0 <= s.y &&
@@ -188,7 +188,7 @@ pair<int, IntVec> dls(const RaceInfo& rs,const Point& p, const IntVec v, const P
       done.insert(nv);
       const Movement move(p, np);
       list <Position> touched = move.touchedSquares();
-      if (none_of(touched.begin(), touched.end(),
+      if (!none_of(touched.begin(), touched.end(),
                 [rs, course](Position s) {
                   return
                     0 <= s.y &&
