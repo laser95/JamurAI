@@ -88,40 +88,51 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
           nextMe.position.x += nextMe.velocity.x;
           nextMe.position.y += nextMe.velocity.y;
           const Movement myMove(me.position, nextMe.position);
-          list <Position> myTouched = myMove.touchedSquares();
           PlayerState nextRv = rv;
           nextRv.velocity.x += ex;
           nextRv.velocity.y += ey;
           nextRv.position.x += nextRv.velocity.x;
           nextRv.position.y += nextRv.velocity.y;
           const Movement enMove(rv.position, nextRv.position);
-          list <Position> enTouched = enMove.touchedSquares();
           bool stopped = false;
-          if (none_of(myTouched.begin(), myTouched.end(),
+          if (!none_of(myMove.touched.begin(), myMove.touched.end(),
                   [rs, course](Position s) {
                     return
                       0 <= s.y &&
                       s.y < course.length &&
                       rs.squares[s.y][s.x] == OBSTACLE;
-                  })
-            || myMove.goesThru(rv.position)) {
+                  }))
+          {
             nextMe.position = me.position;
             stopped |= true;
           }
           if (rv.position.y >= course.length
-            || none_of(enTouched.begin(), enTouched.end(),
+            || !none_of(enMove.touched.begin(), enMove.touched.end(),
                     [rs, course](Position s) {
                       return
                         0 <= s.y &&
                         s.y < course.length &&
                         rs.squares[s.y][s.x] == OBSTACLE;
-                    })
-            || enMove.goesThru(me.position)) {
+                    }))
+          {
             nextRv.position = rv.position;
             stopped |= true;
           }
           if (myMove.intersects(enMove) && !stopped) {
-            if (me.position.y != rv.position.y) {
+            bool myStopped = myMove.goesThru(rv.position),enStopped = enMove.goesThru(me.position);
+            if(myStopped){
+              if(enStopped){
+                nextMe.position = me.position;
+                nextRv.position = rv.position;
+              }
+              else{
+                nextMe.position = me.position;
+              }
+            }
+            else if(enStopped){
+              nextRv.position = rv.position;
+            }
+            else if (me.position.y != rv.position.y) {
               if (me.position.y < rv.position.y) {
                 nextRv.position = rv.position;
               }
@@ -195,7 +206,7 @@ pair<int, IntVec> dls(const RaceInfo& rs,const Point& p, const IntVec v, const P
                     s.y < course.length &&
                     rs.squares[s.y][s.x] == OBSTACLE;
                 })
-        || move.goesThru(rvp)) {
+        /*|| move.goesThru(rvp)*/) {
         const auto& ret = dls(rs, p, nv, rvp, course, depth - 1, done);
         if (ret.first < best) {
           best = ret.first;
@@ -302,7 +313,7 @@ static IntVec play(const RaceInfo& rs, const RaceCourse& course) {
   memo.clear();
   bfs(rs, course);
   History hist(SEARCH_DEPTH);
-  auto p = alpha_beta(rs, course, { rs.me.position, rs.me.velocity }, { rs.opponent.position, rs.opponent.velocity }, hist);  
+  auto p = alpha_beta(rs, course, { rs.me.position, rs.me.velocity }, { rs.opponent.position, rs.opponent.velocity }, hist);
   if (p.first == -INF) {
     // If my player will be stuck, use greedy.
     return find_movable(rs, course);
