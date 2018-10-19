@@ -1,4 +1,5 @@
 #include <cmath>
+#include <algorithm>
 #include "raceInfo.hpp"
 
 static int dot(int x1, int y1, int x2, int y2) {
@@ -46,15 +47,7 @@ void addSquares(int x, int y0, int y1, list <Position> &squares) {
 }
 
 bool Movement::goesThru(const Point &p) const {
-  int minx = min(from.x, to.x);
-  if (p.x < minx) return false;
-  int maxx = max(from.x, to.x);
-  if (p.x > maxx) return false;
-  int miny = min(from.y, to.y);
-  if (p.y < miny) return false;
-  int maxy = max(from.y, to.y);
-  if (p.y > maxy) return false;
-  return ccw(from.x, from.y, to.x, to.y, p.x, p.y) == 0 && dot(from.x - p.x, from.y - p.y, to.x - p.x, to.y - p.y) <= 0;
+  return !none_of(touched.begin(),touched.end(),[p](Position s){return s==p;});
 }
 
 bool Movement::intersects(const Movement& l) const {
@@ -70,10 +63,10 @@ bool Movement::intersects(const Movement& l) const {
   if (maxy < minly || maxly < miny ) return false;
   int d1 = (from.x-l.from.x)*(l.to.y-l.from.y)-(from.y-l.from.y)*(l.to.x-l.from.x);
   int d2 = (to.x-l.from.x)*(l.to.y-l.from.y)-(to.y-l.from.y)*(l.to.x-l.from.x);
-  if (d1*d2 > 0) return false; 
+  if (d1*d2 > 0) return false;
   int d3 = (l.from.x-from.x)*(to.y-from.y)-(l.from.y-from.y)*(to.x-from.x);
   int d4 = (l.to.x-from.x)*(to.y-from.y)-(l.to.y-from.y)*(to.x-from.x);
-  if (d3*d4 > 0) return false; 
+  if (d3*d4 > 0) return false;
   return true;
 }
 

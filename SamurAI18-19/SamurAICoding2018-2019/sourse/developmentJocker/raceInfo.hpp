@@ -29,9 +29,11 @@ extern RaceCourse course;
 
 struct Movement {
   Position from, to;
+  //通過する升目のリストを保持
+  list<Position> touched;
   bool goesOff(RaceCourse &course);
   /*
-    pointを受け取って、from-toに進む直線が点を通過するかチェック
+    pointを受け取って、from-toに進む直線が点の属する升目を通過するかチェック
     通過すればtrue,しなければfalseを返す
   */
   bool goesThru(const Point &p) const;
@@ -41,7 +43,9 @@ struct Movement {
   */
   bool intersects(const Movement& l) const;
   list <Position> touchedSquares() const;
-  Movement(Position from, Position to): from(from), to(to) {};
+  Movement(Position from, Position to): from(from), to(to) {
+    touched = touchedSquares();
+  };
 };
 
 enum ObstState { UNKNOWN=-1, OBSTACLE=1, PUDDLE=2, NONE=0};
