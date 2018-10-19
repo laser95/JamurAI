@@ -100,10 +100,13 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
                     return
                       0 <= s.y &&
                       s.y < course.length &&
+                      0 <= s.x &&
+                      s.x < course.width &&
                       rs.squares[s.y][s.x] == OBSTACLE;
                   }))
           {
             nextMe.position = me.position;
+            nextMe.velocity = {0,0};
             stopped |= true;
           }
           if (rv.position.y >= course.length
@@ -112,10 +115,13 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
                       return
                         0 <= s.y &&
                         s.y < course.length &&
+                        0 <= s.x &&
+                        s.x < course.width &&
                         rs.squares[s.y][s.x] == OBSTACLE;
                     }))
           {
             nextRv.position = rv.position;
+            nextRv.velocity = {0,0};
             stopped |= true;
           }
           if (myMove.intersects(enMove) && !stopped) {
@@ -123,29 +129,37 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
             if(myStopped){
               if(enStopped){
                 nextMe.position = me.position;
+                nextMe.velocity = {0,0};
                 nextRv.position = rv.position;
+                nextRv.velocity = {0,0};
               }
               else{
                 nextMe.position = me.position;
+                nextMe.velocity = {0,0};
               }
             }
             else if(enStopped){
               nextRv.position = rv.position;
+              nextRv.velocity = {0,0};
             }
             else if (me.position.y != rv.position.y) {
               if (me.position.y < rv.position.y) {
                 nextRv.position = rv.position;
+                nextRv.velocity = {0,0};
               }
               else {
                 nextMe.position = me.position;
+                nextMe.velocity = {0,0};
               }
             }
             else if (me.position.x != rv.position.x) {
               if (me.position.x < rv.position.x) {
                 nextRv.position = rv.position;
+                nextRv.velocity = {0,0};
               }
               else {
                 nextMe.position = me.position;
+                nextMe.velocity = {0,0};
               }
             }
           }
@@ -198,12 +212,13 @@ pair<int, IntVec> dls(const RaceInfo& rs,const Point& p, const IntVec v, const P
       }
       done.insert(nv);
       const Movement move(p, np);
-      list <Position> touched = move.touchedSquares();
-      if (none_of(touched.begin(), touched.end(),
+      if (!none_of(move.touched.begin(), move.touched.end(),
                 [rs, course](Position s) {
                   return
                     0 <= s.y &&
                     s.y < course.length &&
+                    0 <= s.x &&
+                    s.x < course.width &&
                     rs.squares[s.y][s.x] == OBSTACLE;
                 })
         /*|| move.goesThru(rvp)*/) {
