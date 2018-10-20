@@ -3,4 +3,4 @@ course/
 *.d
 *.o
 *.exe
-!.gitkeep
+!.keep
