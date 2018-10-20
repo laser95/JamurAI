@@ -1,4 +1,5 @@
 #include <cmath>
+#include <algorithm>
 #include "raceInfo.hpp"
 
 static int dot(int x1, int y1, int x2, int y2) {
@@ -31,7 +32,7 @@ RaceCourse course;
 
 PlayerState::PlayerState() {}
 PlayerState::PlayerState(Position p, Velocity v):
-  position(p), velocity(v) {}
+position(p), velocity(v) {}
 
 void addSquares(int x, int y0, int y1, list <Position> &squares) {
   if (y1 > y0) {
@@ -46,15 +47,7 @@ void addSquares(int x, int y0, int y1, list <Position> &squares) {
 }
 
 bool Movement::goesThru(const Point &p) const {
-  int minx = min(from.x, to.x);
-  if (p.x < minx) return false;
-  int maxx = max(from.x, to.x);
-  if (p.x > maxx) return false;
-  int miny = min(from.y, to.y);
-  if (p.y < miny) return false;
-  int maxy = max(from.y, to.y);
-  if (p.y > maxy) return false;
-  return ccw(from.x, from.y, to.x, to.y, p.x, p.y) == 0 && dot(from.x - p.x, from.y - p.y, to.x - p.x, to.y - p.y) <= 0;
+  return !none_of(touched.begin(),touched.end(),[p](Position s){return s==p;});
 }
 
 bool Movement::intersects(const Movement& l) const {
@@ -137,6 +130,43 @@ list <Position> Movement::touchedSquares() const {
   return r;
 }
 
+void RaceInfo::SquaresOutOfView(IntVec accel) {
+
+  if(lastMe.position == me.position){
+    Position expectedPosition = me.position;
+    expectedPosition = expectedPosition + accel;
+    const Movement move(lastMe.position,expectedPosition);
+    Position tempPosition;
+    for(auto itr = move.touched.begin(); itr != move.touched.end(); ++itr) {
+        tempPosition = *itr;
+        if(squares[tempPosition.x][tempPosition.y] == UNKNOWN)
+        {
+          squares[tempPosition.x][tempPosition.y] == MAYBE_OBSTACLE;
+        }
+    }
+  }
+
+  if(lastOpponent.position == opponent.position){
+    Position expectedOppPosition = opponent.position + lastOpponent.velocity;
+    Position tempOppPosition;
+    for(int oppAccelX = -1;oppAccelX <= 1;oppAccelX++){
+      for(int oppAccelY = -1;oppAccelY <= 1;oppAccelY++){
+        tempOppPosition.x = expectedOppPosition.x + oppAccelX;
+        tempOppPosition.y = expectedOppPosition.y + oppAccelY;
+        Movement oppMove(lastOpponent.position,tempOppPosition);
+        for(auto itr = oppMove.touched.begin(); itr != oppMove.touched.end(); ++itr) {
+          tempOppPosition = *itr;
+          if(squares[tempOppPosition.x][tempOppPosition.y] == UNKNOWN)
+          {
+            squares[tempOppPosition.x][tempOppPosition.y] == MAYBE_OBSTACLE;
+          }
+        }
+      }
+    }
+  }
+
+}
+
 istream &operator>>(istream &in, RaceCourse &course) {
   in >> course.thinkTime
      >> course.stepLimit
@@ -154,10 +184,13 @@ istream &operator>>(istream &in, PlayerState &ps) {
 };
 
 istream &operator>>(istream &in, RaceInfo &ri) {
+  ri.lastMe = ri.me;
+  ri.lastOpponent = ri.opponent;
   in >> ri.stepNumber
      >> ri.timeLeft
      >> ri.me
      >> ri.opponent;
+
   ri.squares = new ObstState*[course.length];
   for (int y = 0; y != course.length; y++) {
     ri.squares[y] = new ObstState[course.width];
@@ -167,5 +200,7 @@ istream &operator>>(istream &in, RaceInfo &ri) {
       ri.squares[y][x] = ObstState(state);
     }
   }
+
   return in;
 }
+

@@ -29,6 +29,7 @@ extern RaceCourse course;
 
 struct Movement {
   Position from, to;
+  list<Position> touched;
   bool goesOff(RaceCourse &course);
   /*
     pointを受け取って、from-toに進む直線が点を通過するかチェック
@@ -41,10 +42,12 @@ struct Movement {
   */
   bool intersects(const Movement& l) const;
   list <Position> touchedSquares() const;
-  Movement(Position from, Position to): from(from), to(to) {};
+  Movement(Position from, Position to): from(from), to(to) {
+    touched = touchedSquares();
+  };
 };
 
-enum ObstState { UNKNOWN=-1, OBSTACLE=1, PUDDLE=2, NONE=0};
+enum ObstState { UNKNOWN=-1, OBSTACLE=1, PUDDLE=2, MAYBE_OBSTACLE=3, NONE=0};
 
 struct PlayerState {
   Position position;
@@ -61,8 +64,9 @@ struct PlayerState {
 struct RaceInfo {
   int stepNumber;
   uint64_t timeLeft;
-  PlayerState me, opponent;
+  PlayerState me, lastMe, opponent, lastOpponent;
   ObstState **squares;
+  void SquaresOutOfView(IntVec accel);
 };
 
 istream &operator>>(istream &in, RaceCourse &course);
