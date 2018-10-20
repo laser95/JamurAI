@@ -1,0 +1,5 @@
+gameLog/
+course/
+*.d
+*.o
+*.exe
