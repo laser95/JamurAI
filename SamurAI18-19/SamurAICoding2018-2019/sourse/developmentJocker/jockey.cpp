@@ -222,7 +222,7 @@ pair<int, IntVec> dls(const RaceInfo& rs,const Point& p, const IntVec v, const P
                     rs.squares[s.y][s.x] == OBSTACLE;
                 })
         /*|| move.goesThru(rvp)*/) {
-        const auto& ret = dls(rs, p, nv, rvp, course, depth - 1, done);
+        const auto& ret = dls(rs, p, {0,0}, rvp, course, depth - 1, done);
         if (ret.first < best) {
           best = ret.first;
           bestAction = { dx, dy };
