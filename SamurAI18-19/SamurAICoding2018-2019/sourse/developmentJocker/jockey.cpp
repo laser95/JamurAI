@@ -100,9 +100,8 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
                     return
                       0 <= s.y &&
                       s.y < course.length &&
-                      0 <= s.x &&
-                      s.x < course.width &&
-                      rs.squares[s.y][s.x] == OBSTACLE;
+                      (rs.squares[s.y][s.x] == OBSTACLE ||
+                        s.x < 0 || course.width <= s.x);
                   }))
           {
             nextMe.position = me.position;
@@ -115,9 +114,8 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
                       return
                         0 <= s.y &&
                         s.y < course.length &&
-                        0 <= s.x &&
-                        s.x < course.width &&
-                        rs.squares[s.y][s.x] == OBSTACLE;
+                        (rs.squares[s.y][s.x] == OBSTACLE ||
+                          s.x < 0 || course.width <= s.x);
                     }))
           {
             nextRv.position = rv.position;
@@ -217,9 +215,8 @@ pair<int, IntVec> dls(const RaceInfo& rs,const Point& p, const IntVec v, const P
                   return
                     0 <= s.y &&
                     s.y < course.length &&
-                    0 <= s.x &&
-                    s.x < course.width &&
-                    rs.squares[s.y][s.x] == OBSTACLE;
+                    (rs.squares[s.y][s.x] == OBSTACLE ||
+                      s.x < 0 || course.width <= s.x);
                 })
         /*|| move.goesThru(rvp)*/) {
         const auto& ret = dls(rs, p, nv, rvp, course, depth - 1, done);
