@@ -282,7 +282,7 @@ static void bfs(const RaceInfo& rs, const RaceCourse& course)
       bfsed[Point(x, y)] = bfsed[Point(x, y - 1)] - 15;
     }
   }
-  for (int y = ymax - 1; y > - 1; --y) {
+  for (int y = ymax - 1; y > - 10; --y) {
 	  for (int x = 0; x < course.width; ++x) {
 		  if (rs.squares[y][x] == NONE && rs.squares[y + 1][x] == NONE) {
 			  bfsed[Point(x, y)] = bfsed[Point(x, y + 1)] + 15;
