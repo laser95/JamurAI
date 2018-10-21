@@ -282,31 +282,49 @@ static void bfs(const RaceInfo& rs, const RaceCourse& course)
       bfsed[Point(x, y)] = bfsed[Point(x, y - 1)] - 15;
     }
   }
-  for (int y = ymax - 1; y > - 10; --y) {
+  for (int y = ymax - 1; y > - 10; --y) {  
 	  for (int x = 0; x < course.width; ++x) {
-		  if (rs.squares[y][x] == NONE && rs.squares[y + 1][x] == NONE) {
+		  if (y <= -1) {
+			  if (y == -1 && rs.squares[y + 1][x] == OBSTACLE) {
+				  bfsed[Point(x, y)] = 1000;
+			  }
+			  else {
+				  bfsed[Point(x, y)] = bfsed[Point(x, y + 1)] + 15;
+			  }
+		  }
+		  else if (rs.squares[y][x] == NONE && rs.squares[y + 1][x] == NONE) {
 			  bfsed[Point(x, y)] = bfsed[Point(x, y + 1)] + 15;
 		  }
-		  else if (rs.squares[y][x] == NONE && rs.squares[y + 1][x] != NONE) {
+		  else if (rs.squares[y][x] == NONE && rs.squares[y + 1][x] == OBSTACLE) {
 			  bfsed[Point(x, y)] = 1000;
 		  }
 	  }
 	  for (int x = 0; x < course.width; ++x) {
-		  if (rs.squares[y][x] == NONE && rs.squares[y][x - 1] == NONE) {
+		  if (y <= -1) {
+			  if (bfsed[Point(x, y)] > bfsed[Point(x - 1, y)] + 12) {
+				  bfsed[Point(x, y)] = bfsed[Point(x - 1, y)] + 12;
+			  }
+		  }
+		  else if (rs.squares[y][x] == NONE && rs.squares[y][x - 1] == NONE) {
 			  if (bfsed[Point(x, y)] > bfsed[Point(x - 1, y)] + 12) {
 				  bfsed[Point(x, y)] = bfsed[Point(x - 1, y)] + 12;
 			  }
 		  }
 	  }
 	  for (int x = course.width - 1; x > -1; --x) {
-		  if (rs.squares[y][x] == NONE && rs.squares[y][x + 1] == NONE) {
+		  if (y <= -1) {
+			  if (bfsed[Point(x, y)] > bfsed[Point(x + 1, y)] + 12) {
+				  bfsed[Point(x, y)] = bfsed[Point(x + 1, y)] + 12;
+			  }
+		  }
+		  else if (rs.squares[y][x] == NONE && rs.squares[y][x + 1] == NONE) {
 			  if (bfsed[Point(x, y)] > bfsed[Point(x + 1, y)] + 12) {
 				  bfsed[Point(x, y)] = bfsed[Point(x + 1, y)] + 12;
 			  }
 		  }
 	  }
 	  for (int x = 0; x < course.width; ++x) {
-		  if (rs.squares[y][x] == NONE) {
+		  if (y >= 0 && rs.squares[y][x] == NONE) {
 			  if (rs.squares[y + 1][x] == NONE) {
 				  bfsed[Point(x, y)] = bfsed[Point(x, y)] - 2;
 			  }
