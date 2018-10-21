@@ -98,10 +98,10 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
           if (!none_of(myMove.touched.begin(), myMove.touched.end(),
                   [rs, course](Position s) {
                     return
-                      0 <= s.y &&
+                      (0 <= s.y &&
                       s.y < course.length &&
-                      (rs.squares[s.y][s.x] == OBSTACLE ||
-                        s.x < 0 || course.width <= s.x);
+                      rs.squares[s.y][s.x] == OBSTACLE) ||
+                      s.x < 0 || course.width <= s.x;
                   }))
           {
             nextMe.position = me.position;
@@ -112,10 +112,10 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
             || !none_of(enMove.touched.begin(), enMove.touched.end(),
                     [rs, course](Position s) {
                       return
-                        0 <= s.y &&
+                        (0 <= s.y &&
                         s.y < course.length &&
-                        (rs.squares[s.y][s.x] == OBSTACLE ||
-                          s.x < 0 || course.width <= s.x);
+                        rs.squares[s.y][s.x] == OBSTACLE) ||
+                        s.x < 0 || course.width <= s.x;
                     }))
           {
             nextRv.position = rv.position;
@@ -213,10 +213,10 @@ pair<int, IntVec> dls(const RaceInfo& rs,const Point& p, const IntVec v, const P
       if (!none_of(move.touched.begin(), move.touched.end(),
                 [rs, course](Position s) {
                   return
-                    0 <= s.y &&
+                    (0 <= s.y &&
                     s.y < course.length &&
-                    (rs.squares[s.y][s.x] == OBSTACLE ||
-                      s.x < 0 || course.width <= s.x);
+                    rs.squares[s.y][s.x] == OBSTACLE) ||
+                    s.x < 0 || course.width <= s.x;
                 })
         /*|| move.goesThru(rvp)*/) {
         const auto& ret = dls(rs, p, {0,0}, rvp, course, depth - 1, done);
@@ -282,7 +282,7 @@ static void bfs(const RaceInfo& rs, const RaceCourse& course)
       bfsed[Point(x, y)] = bfsed[Point(x, y - 1)] - 15;
     }
   }
-  for (int y = ymax - 1; y > - 10; --y) {  
+  for (int y = ymax - 1; y > - 10; --y) {
 	  for (int x = 0; x < course.width; ++x) {
 		  if (y <= -1) {
 			  if (y == -1 && rs.squares[y + 1][x] == OBSTACLE) {
