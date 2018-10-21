@@ -338,10 +338,14 @@ int main(int, char *[]) {
   cout << "0" << endl;
   cout.flush();
   left_border = (int)((course.width - 1) / 3);
+  RaceInfo rs;
+  IntVec accel;
   while (true) {
-    RaceInfo rs;
     cin >> rs;
-    IntVec accel = play(rs, course);
+    if(rs.stepNumber > 0){
+      rs.SquaresOutOfView(accel);
+    }
+    accel = play(rs, course);
     cout << accel.x << ' ' << accel.y << endl;
     cout.flush();
     while (isspace(cin.peek())) cin.ignore(1);

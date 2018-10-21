@@ -1,0 +1,7 @@
+gameLog/*
+!.keep
+course/*
+!.keep
+*.d
+*.o
+*.exe
