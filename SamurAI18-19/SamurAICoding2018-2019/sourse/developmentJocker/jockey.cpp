@@ -263,6 +263,7 @@ static void bfs(const RaceInfo& rs, const RaceCourse& course)
     ymax = rs.opponent.position.y + course.vision;
   }
 
+  if(ymax >= course.length)ymax = course.length - 1;
   for (int x = 0; x < course.width; ++x) {
     if (rs.squares[ymax][x] == OBSTACLE || (x > 0 && rs.squares[ymax][x - 1] == NONE)) {
 		continue;
