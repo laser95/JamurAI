@@ -256,32 +256,34 @@ static void bfs(const RaceInfo& rs, const RaceCourse& course)
 {
   bfsed.clear();
   int ymax;
-  if(rs.me.position.y>rs.opponent.position.y){
-   ymax = rs.me.position.y + course.vision;
+  if(rs.me.position.y > rs.opponent.position.y){
+	  ymax = rs.me.position.y + course.vision;
   }
   else{
-    ymax = rs.opponent.position.y + course.vision;
+	  ymax = rs.opponent.position.y + course.vision;
   }
-
   if(ymax >= course.length)ymax = course.length - 1;
   for (int x = 0; x < course.width; ++x) {
-    if (rs.squares[ymax][x] == OBSTACLE || (x > 0 && rs.squares[ymax][x - 1] == NONE)) {
-		continue;
-    }
-	if (rs.squares[ymax][x] == NONE && rs.squares[ymax][x - 1] == OBSTACLE) {
-		int x1 = x + 1;
-		while (rs.squares[ymax][x1] == NONE && x1 < course.width + 1) {
-			x1 = x1 + 1;
-		}
-		for (int x2 = x; x2 < x1; ++x2) {
-			bfsed[Point(x2, ymax)] = course.width - min(x2 - x, x1 - x2 - 1);
-		}
-	}
+	  if (rs.squares[ymax][x] == OBSTACLE || (x > 0 && rs.squares[ymax][x - 1] == NONE)) {
+		  continue;
+	  }
+	  if (rs.squares[ymax][x] == NONE && rs.squares[ymax][x - 1] == OBSTACLE) {
+		  int x1 = x + 1;
+		  while (rs.squares[ymax][x1] == NONE && x1 < course.width + 1) {
+			  x1 = x1 + 1;
+		  }
+		  for (int x2 = x; x2 < x1; ++x2) {
+			  bfsed[Point(x2, ymax)] = course.width - min(x2 - x, x1 - x2 - 1);
+		  }
+	  }
   }
   for (int y = ymax + 1; y < course.length + course.vision; y++) {
-    for (int x = 0; x < course.width; x++) {
-      bfsed[Point(x, y)] = bfsed[Point(x, y - 1)] - 15;
-    }
+	  for (int x = 0; x < course.width; x++) {
+		  bfsed[Point(x, y)] = bfsed[Point(x, y - 1)] - 15;
+		  if (rs.squares[y - 1][x] == MAYBE_OBSTACLE) {
+			  bfsed[Point(x, y - 1)] = bfsed[Point(x, y - 1)] + 100;
+		  }
+	  }
   }
   for (int y = ymax - 1; y > - 10; --y) {
 	  for (int x = 0; x < course.width; ++x) {
