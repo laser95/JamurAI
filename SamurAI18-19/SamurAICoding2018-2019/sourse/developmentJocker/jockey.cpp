@@ -161,6 +161,12 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
               }
             }
           }
+          if(nextMe.position.y >= 0 && nextMe.position.y < course.length){
+            if(rs.squares[nextMe.position.y][nextMe.position.x] == PUDDLE)nextMe.velocity = {0,0};
+          }
+          if(nextRv.position.y >= 0 && nextRv.position.y < course.length){
+            if(rs.squares[nextRv.position.y][nextRv.position.x] == PUDDLE)nextRv.velocity = {0,0};
+          }
           hist[depth] = make_pair(
             Point(nextMe.position.x,min(course.length, nextMe.position.y)), Point(nextRv.position.x,min(course.length, nextRv.position.y))
           );
