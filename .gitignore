@@ -2,6 +2,8 @@ gameLog/*
 !.keep
 course/*
 !.keep
+playerLog/*
+!.keep
 *.d
 *.o
 *.exe
