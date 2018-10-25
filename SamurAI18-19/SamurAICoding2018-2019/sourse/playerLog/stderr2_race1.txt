@@ -1,0 +1,114 @@
+[system] Try: hand shake
+[system] spend time: 5, remain: 119995
+[system] Success!: hand shake
+[system] ================================
+[system] turn: 0
+[system] spend time: 374, remain: 119626
+[system] ================================
+[system] turn: 1
+[system] spend time: 452, remain: 118800
+[system] ================================
+[system] turn: 2
+[system] spend time: 317, remain: 118031
+[system] ================================
+[system] turn: 3
+[system] spend time: 377, remain: 117337
+[system] ================================
+[system] turn: 4
+[system] spend time: 306, remain: 116654
+[system] ================================
+[system] turn: 5
+[system] spend time: 508, remain: 115840
+[system] ================================
+[system] turn: 6
+[system] spend time: 505, remain: 114827
+[system] ================================
+[system] turn: 7
+[system] spend time: 0, remain: 114322
+[system] ================================
+[system] turn: 8
+[system] spend time: 0, remain: 114322
+[system] ================================
+[system] turn: 9
+[system] spend time: 68, remain: 114254
+[system] ================================
+[system] turn: 10
+[system] spend time: 81, remain: 114105
+[system] ================================
+[system] turn: 11
+[system] spend time: 79, remain: 113945
+[system] ================================
+[system] turn: 12
+[system] spend time: 142, remain: 113724
+[system] ================================
+[system] turn: 13
+[system] spend time: 153, remain: 113429
+[system] ================================
+[system] turn: 14
+[system] spend time: 47, remain: 113229
+[system] ================================
+[system] turn: 15
+[system] spend time: 64, remain: 113118
+[system] ================================
+[system] turn: 16
+[system] spend time: 84, remain: 112970
+[system] ================================
+[system] turn: 17
+[system] spend time: 16, remain: 112870
+[system] ================================
+[system] turn: 18
+[system] spend time: 16, remain: 112838
+[system] ================================
+[system] turn: 19
+[system] spend time: 34, remain: 112788
+[system] ================================
+[system] turn: 20
+[system] spend time: 39, remain: 112715
+[system] ================================
+[system] turn: 21
+[system] spend time: 38, remain: 112638
+[system] ================================
+[system] turn: 22
+[system] spend time: 28, remain: 112572
+[system] ================================
+[system] turn: 23
+[system] spend time: 21, remain: 112523
+[system] ================================
+[system] turn: 24
+[system] spend time: 23, remain: 112479
+[system] ================================
+[system] turn: 25
+[system] spend time: 36, remain: 112420
+[system] ================================
+[system] turn: 26
+[system] spend time: 30, remain: 112354
+[system] ================================
+[system] turn: 27
+[system] spend time: 25, remain: 112299
+[system] ================================
+[system] turn: 28
+[system] spend time: 28, remain: 112246
+[system] ================================
+[system] turn: 29
+[system] spend time: 58, remain: 112160
+[system] ================================
+[system] turn: 30
+[system] spend time: 123, remain: 111979
+[system] ================================
+[system] turn: 31
+[system] spend time: 256, remain: 111600
+[system] ================================
+[system] turn: 32
+[system] spend time: 287, remain: 111057
+[system] ================================
+[system] turn: 33
+[system] spend time: 185, remain: 110585
+[system] ================================
+[system] turn: 34
+[system] spend time: 25, remain: 110375
+[system] ================================
+[system] turn: 35
+[system] spend time: 0, remain: 110350
+[system] terminate your AI: "greedy"
+[system] 	error code: 0
+[system] 	message: "No error

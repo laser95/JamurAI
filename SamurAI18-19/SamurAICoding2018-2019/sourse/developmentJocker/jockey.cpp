@@ -264,12 +264,12 @@ static void bfs(const RaceInfo& rs, const RaceCourse& course)
   }
   if(ymax >= course.length)ymax = course.length - 1;
   for (int x = 0; x < course.width; ++x) {
-	  if (rs.squares[ymax][x] == OBSTACLE || (x > 0 && rs.squares[ymax][x - 1] == NONE)) {
+	  if (rs.squares[ymax][x] == OBSTACLE || (x > 0 && rs.squares[ymax][x - 1] == NONE) || rs.squares[ymax][x - 1] == PUDDLE) {
 		  continue;
 	  }
-	  if (rs.squares[ymax][x] == NONE && rs.squares[ymax][x - 1] == OBSTACLE) {
+	  if ((rs.squares[ymax][x] == NONE || rs.squares[ymax][x] == PUDDLE) && rs.squares[ymax][x - 1] == OBSTACLE) {
 		  int x1 = x + 1;
-		  while (rs.squares[ymax][x1] == NONE && x1 < course.width + 1) {
+		  while ((rs.squares[ymax][x1] == NONE || rs.squares[ymax][x1] == PUDDLE) && x1 < course.width + 1) {
 			  x1 = x1 + 1;
 		  }
 		  for (int x2 = x; x2 < x1; ++x2) {
@@ -292,51 +292,64 @@ static void bfs(const RaceInfo& rs, const RaceCourse& course)
 				  bfsed[Point(x, y)] = bfsed[Point(x, y + 1)] + 15;
 			  }
 		  }
-		  else if (rs.squares[y][x] == NONE && rs.squares[y + 1][x] == NONE) {
+		  else if ((rs.squares[y][x] == NONE || rs.squares[y][x] == PUDDLE) && (rs.squares[y + 1][x] == NONE || rs.squares[y + 1][x] == PUDDLE)) {
 			  bfsed[Point(x, y)] = bfsed[Point(x, y + 1)] + 15;
 		  }
-		  else if (rs.squares[y][x] == NONE && rs.squares[y + 1][x] == OBSTACLE) {
+		  else if ((rs.squares[y][x] == NONE || rs.squares[y][x] == PUDDLE) && rs.squares[y + 1][x] == OBSTACLE) {
 			  bfsed[Point(x, y)] = 1000;
 		  }
 	  }
-	  for (int x = 0; x < course.width; ++x) {
+	  for (int x = 1; x < course.width; ++x) {
 		  if (y <= -1) {
 			  if (bfsed[Point(x, y)] > bfsed[Point(x - 1, y)] + 12) {
 				  bfsed[Point(x, y)] = bfsed[Point(x - 1, y)] + 12;
 			  }
 		  }
-		  else if (rs.squares[y][x] == NONE && rs.squares[y][x - 1] == NONE) {
+		  else if ((rs.squares[y][x] == NONE || rs.squares[y][x] == PUDDLE) && (rs.squares[y][x - 1] == NONE || rs.squares[y][x -1] == PUDDLE)) {
 			  if (bfsed[Point(x, y)] > bfsed[Point(x - 1, y)] + 12) {
 				  bfsed[Point(x, y)] = bfsed[Point(x - 1, y)] + 12;
 			  }
 		  }
 	  }
-	  for (int x = course.width - 1; x > -1; --x) {
+	  for (int x = course.width - 2 ; x > -1; --x) {
 		  if (y <= -1) {
 			  if (bfsed[Point(x, y)] > bfsed[Point(x + 1, y)] + 12) {
 				  bfsed[Point(x, y)] = bfsed[Point(x + 1, y)] + 12;
 			  }
 		  }
-		  else if (rs.squares[y][x] == NONE && rs.squares[y][x + 1] == NONE) {
+		  else if ((rs.squares[y][x] == NONE || rs.squares[y][x] == PUDDLE) && (rs.squares[y][x + 1] == NONE || rs.squares[y][x + 1] == PUDDLE)) {
 			  if (bfsed[Point(x, y)] > bfsed[Point(x + 1, y)] + 12) {
 				  bfsed[Point(x, y)] = bfsed[Point(x + 1, y)] + 12;
 			  }
 		  }
 	  }
 	  for (int x = 0; x < course.width; ++x) {
-		  if (y >= 0 && rs.squares[y][x] == NONE) {
-			  if (rs.squares[y + 1][x] == NONE) {
+		  if (y >= 0 && (rs.squares[y][x] == NONE || rs.squares[y][x] == PUDDLE)) {
+			  if (rs.squares[y + 1][x] == NONE || rs.squares[y + 1][x] == PUDDLE) {
 				  bfsed[Point(x, y)] = bfsed[Point(x, y)] - 2;
 			  }
-			  if (rs.squares[y][x + 1] == NONE && rs.squares[y + 1][x + 1] == NONE) {
+			  if ((rs.squares[y][x + 1] == NONE || rs.squares[y][x + 1] == PUDDLE) && (rs.squares[y + 1][x + 1] == NONE || rs.squares[y + 1][x + 1] == PUDDLE)) {
 				  bfsed[Point(x, y)] = bfsed[Point(x, y)] - 2;
 			  }
-			  if (rs.squares[y][x - 1] == NONE && rs.squares[y + 1][x - 1] == NONE) {
+			  if ((rs.squares[y][x - 1] == NONE || rs.squares[y][x - 1] == PUDDLE) && (rs.squares[y + 1][x - 1] == NONE || rs.squares[y + 1][x - 1])) {
 				  bfsed[Point(x, y)] = bfsed[Point(x, y)] - 2;
 			  }
 		  }
 	  }
   }
+
+  /*
+  for(int y = - 9; y < course.length + course.vision; ++y)
+  {
+    for(int x = 0; x < course.width; ++x)
+    {
+      cerr << bfsed[Point(x, y)] << " ";
+    }
+    cerr << endl;
+  }
+  */
+
+
 }
 
 static IntVec play(const RaceInfo& rs, const RaceCourse& course) {
