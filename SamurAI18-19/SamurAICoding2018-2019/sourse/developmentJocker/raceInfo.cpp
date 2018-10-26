@@ -77,11 +77,11 @@ list <Position> Movement::touchedSquares() const {
   int sgnx = dx > 0 ? 1 : -1;
   int sgny = dy > 0 ? 1 : -1;
   if (dx == 0) {
-    for (int k = 0, y = from.y; k <= dy; k++, y += sgny) {
+    for (int k = 0, y = from.y; k <= sgny*dy; k++, y += sgny) {
       r.emplace_back(from.x, y);
     }
   } else if (dy == 0) {
-    for (int k = 0, x = from.x; k <= dx; k++, x += sgnx) {
+    for (int k = 0, x = from.x; k <= sgnx*dx; k++, x += sgnx) {
       r.emplace_back(x, from.y);
     }
   } else {
@@ -203,4 +203,3 @@ istream &operator>>(istream &in, RaceInfo &ri) {
 
   return in;
 }
-
