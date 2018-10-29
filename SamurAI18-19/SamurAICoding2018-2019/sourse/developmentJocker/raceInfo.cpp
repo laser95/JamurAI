@@ -133,16 +133,17 @@ list <Position> Movement::touchedSquares() const {
 void RaceInfo::SquaresOutOfView(IntVec accel) {
 
   if(lastMe.position == me.position){
-    Position expectedPosition = me.position;
-    expectedPosition = expectedPosition + accel;
-    const Movement move(lastMe.position,expectedPosition);
-    Position tempPosition;
-    for(auto itr = move.touched.begin(); itr != move.touched.end(); ++itr) {
+    Position expectedPosition = lastMe.position + lastMe.velocity + accel;
+    if(expectedPosition.x >= 0 && expectedPosition.x < course.width){
+      const Movement move(lastMe.position,expectedPosition);
+      Position tempPosition;
+      for(auto itr = move.touched.begin(); itr != move.touched.end(); ++itr) {
         tempPosition = *itr;
         if(squares[tempPosition.x][tempPosition.y] == UNKNOWN)
         {
-          squares[tempPosition.x][tempPosition.y] == MAYBE_OBSTACLE;
+          squares[tempPosition.x][tempPosition.y] = MAYBE_OBSTACLE;
         }
+      }
     }
   }
 
@@ -153,12 +154,14 @@ void RaceInfo::SquaresOutOfView(IntVec accel) {
       for(int oppAccelY = -1;oppAccelY <= 1;oppAccelY++){
         tempOppPosition.x = expectedOppPosition.x + oppAccelX;
         tempOppPosition.y = expectedOppPosition.y + oppAccelY;
-        Movement oppMove(lastOpponent.position,tempOppPosition);
-        for(auto itr = oppMove.touched.begin(); itr != oppMove.touched.end(); ++itr) {
-          tempOppPosition = *itr;
-          if(squares[tempOppPosition.x][tempOppPosition.y] == UNKNOWN)
-          {
-            squares[tempOppPosition.x][tempOppPosition.y] == MAYBE_OBSTACLE;
+        if(tempOppPosition.x >= 0 && tempOppPosition.x < course.width){
+          Movement oppMove(lastOpponent.position,tempOppPosition);
+          for(auto itr = oppMove.touched.begin(); itr != oppMove.touched.end(); ++itr) {
+            tempOppPosition = *itr;
+            if(squares[tempOppPosition.x][tempOppPosition.y] == UNKNOWN)
+            {
+              squares[tempOppPosition.x][tempOppPosition.y] = MAYBE_OBSTACLE;
+            }
           }
         }
       }
