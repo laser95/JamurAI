@@ -80,6 +80,11 @@ list <Position> Movement::touchedSquares() const {
     cerr << to.y << "," << from.y << endl;
     cerr << dx << "," << dy << endl;
   */
+  if(to.x < 0 || course.width <= to.x)
+  {
+     r.emplace_back(-1,0);
+     return r;
+  }
   if (dx == 0) {
     for (int k = 0, y = from.y; k <= sgny*dy; k++, y += sgny) {
       r.emplace_back(from.x, y);
