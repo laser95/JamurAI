@@ -85,9 +85,9 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
   if (me.position.x <= left_border)priority = -1;
   for (int my = 1; -1 <= my; --my) {
     // limit velocity
-    if (me.velocity.y + my > course.vision / 2) {
+    /*if (me.velocity.y + my > course.vision / 2) {
       continue;
-    }
+    }*/
 	int roop_count = 0;
 	for (int mx = -1 * priority; roop_count < 3; mx += priority) {
 	  roop_count++;

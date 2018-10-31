@@ -2,7 +2,7 @@
 #include <algorithm>
 #include "raceInfo.hpp"
 
-static int dot(int x1, int y1, int x2, int y2) {
+/*static int dot(int x1, int y1, int x2, int y2) {
   return x1 * x2 + y1 * y2;
 }
 
@@ -12,7 +12,7 @@ static int cross(int x1, int y1, int x2, int y2) {
 
 static int ccw(int x1, int y1, int x2, int y2, int x3, int y3) {
   return cross(x2 - x1, y2 - y1, x3 - x2, y3 - y2);
-}
+}*/
 
 IntVec IntVec::operator+(IntVec &another) {
   return IntVec(x + another.x, y + another.y);
