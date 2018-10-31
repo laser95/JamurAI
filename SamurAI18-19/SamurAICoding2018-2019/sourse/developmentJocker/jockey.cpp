@@ -27,12 +27,12 @@ static pair<long long, long long> decode(const History& hist, const RaceCourse& 
   for (auto ite = hist.rbegin(); ite != hist.rend(); ++ite) {
     shift_y *= (course.length + 1) * 2;
     sum_y *= (course.length + 1) * 2;
-    if(ite->first.y <= -10 ){
+    if(ite->first.x < 0 || course.width <= ite->first.x || ite->first.y <= -10 ){
       sum_y -= 1000;
     }else{
       sum_y -= bfsed[ite->first];
     }
-    if(ite->second.y <= -10){
+    if(ite->second.x < 0 || course.width <= ite->second.x || ite->second.y <= -10){
       sum_y += 1000;
     }else{
       sum_y += bfsed[ite->second];
@@ -104,6 +104,8 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
           nextMe.position.x += nextMe.velocity.x;
           nextMe.position.y += nextMe.velocity.y;
           const Movement myMove(me.position, nextMe.position);
+          /*cerr << me.position << myMove.from << *myMove.touched.begin() << endl;
+          cerr << nextMe.position << myMove.to << *myMove.touched.end() << endl;*/
           PlayerState nextRv = rv;
           nextRv.velocity.x += ex;
           nextRv.velocity.y += ey;
@@ -123,7 +125,13 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
             nextMe.position = me.position;
             nextMe.velocity = {0,0};
             stopped |= true;
+            //if(nextMe.position.x < 0) cerr << "DENGERDENGER2" << endl;
           }
+          /*if(nextMe.position.x < 0){
+            cerr << "DENGERDENGER3" << endl;
+            cerr << myMove.from << *myMove.touched.begin() << endl;
+            cerr << myMove.to << *myMove.touched.end() << endl;
+          }*/
           if (rv.position.y >= course.length
             || !none_of(enMove.touched.begin(), enMove.touched.end(),
                     [rs, course](Position s) {
@@ -363,12 +371,12 @@ static void bfs(const RaceInfo& rs, const RaceCourse& course)
 	  }
   }
 
-  /*
-  for(int y = - 9; y < course.length + course.vision; ++y)
+  /*for(int y = - 9; y < course.length + course.vision; ++y)
   {
     for(int x = 0; x < course.width; ++x)
     {
-      cerr << bfsed[Point(x, y)] << " ";
+      cerr << setw(5) << bfsed[Point(x, y)];
+      cerr << "";
     }
     cerr << endl;
   }
@@ -382,8 +390,10 @@ static IntVec play(const RaceInfo& rs, const RaceCourse& course) {
   bfs(rs, course);
   History hist(SEARCH_DEPTH);
   auto p = alpha_beta(rs, course, { rs.me.position, rs.me.velocity }, { rs.opponent.position, rs.opponent.velocity }, hist);
+  cerr << "score : " << p.first << endl;
   if (p.first == -INF) {
     // If my player will be stuck, use greedy.
+    cerr << "No alpha" << endl;
     return find_movable(rs, course);
   }
   return p.second;
