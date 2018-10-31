@@ -27,8 +27,16 @@ static pair<long long, long long> decode(const History& hist, const RaceCourse& 
   for (auto ite = hist.rbegin(); ite != hist.rend(); ++ite) {
     shift_y *= (course.length + 1) * 2;
     sum_y *= (course.length + 1) * 2;
-    sum_y -= bfsed[ite->first];
-    sum_y += bfsed[ite->second];
+    if(ite->first.y <= -10 ){
+      sum_y -= 1000;
+    }else{
+      sum_y -= bfsed[ite->first];
+    }
+    if(ite->second.y <= -10){
+      sum_y += 1000;
+    }else{
+      sum_y += bfsed[ite->second];
+    }
     sum_y += course.length;
   }
   return make_pair(sum_y, shift_y);
@@ -42,6 +50,14 @@ static long long cal(const History& hist, const int depth, const RaceCourse& cou
   long long val = 0;
   val += (SEARCH_DEPTH - depth) * de.second;
   val += de.first;
+  /*if(val == 40983990)
+  {
+    for (auto ite = hist.rbegin(); ite != hist.rend(); ++ite) {
+      cerr << "hist:" << ite->first << endl;
+      cerr << "cost:" << bfsed[ite->first] << endl;
+    }
+  }
+  */
   return val;
 }
 
