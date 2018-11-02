@@ -27,8 +27,16 @@ static pair<long long, long long> decode(const History& hist, const RaceCourse& 
   for (auto ite = hist.rbegin(); ite != hist.rend(); ++ite) {
     shift_y *= (course.length + 1) * 2;
     sum_y *= (course.length + 1) * 2;
-    sum_y -= bfsed[ite->first];
-    sum_y += bfsed[ite->second];
+    if(ite->first.x < 0 || course.width <= ite->first.x || ite->first.y <= -10 ){
+      sum_y -= 1000;
+    }else{
+      sum_y -= bfsed[ite->first];
+    }
+    if(ite->second.x < 0 || course.width <= ite->second.x || ite->second.y <= -10){
+      sum_y += 1000;
+    }else{
+      sum_y += bfsed[ite->second];
+    }
     sum_y += course.length;
   }
   return make_pair(sum_y, shift_y);
@@ -42,6 +50,14 @@ static long long cal(const History& hist, const int depth, const RaceCourse& cou
   long long val = 0;
   val += (SEARCH_DEPTH - depth) * de.second;
   val += de.first;
+  /*if(val == 40983990)
+  {
+    for (auto ite = hist.rbegin(); ite != hist.rend(); ++ite) {
+      cerr << "hist:" << ite->first << endl;
+      cerr << "cost:" << bfsed[ite->first] << endl;
+    }
+  }
+  */
   return val;
 }
 
@@ -69,9 +85,9 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
   if (me.position.x <= left_border)priority = -1;
   for (int my = 1; -1 <= my; --my) {
     // limit velocity
-    if (me.velocity.y + my > course.vision / 2) {
+    /*if (me.velocity.y + my > course.vision / 2) {
       continue;
-    }
+    }*/
 	int roop_count = 0;
 	for (int mx = -1 * priority; roop_count < 3; mx += priority) {
 	  roop_count++;
@@ -88,6 +104,8 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
           nextMe.position.x += nextMe.velocity.x;
           nextMe.position.y += nextMe.velocity.y;
           const Movement myMove(me.position, nextMe.position);
+          /*cerr << me.position << myMove.from << *myMove.touched.begin() << endl;
+          cerr << nextMe.position << myMove.to << *myMove.touched.end() << endl;*/
           PlayerState nextRv = rv;
           nextRv.velocity.x += ex;
           nextRv.velocity.y += ey;
@@ -107,7 +125,13 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
             nextMe.position = me.position;
             nextMe.velocity = {0,0};
             stopped |= true;
+            //if(nextMe.position.x < 0) cerr << "DENGERDENGER2" << endl;
           }
+          /*if(nextMe.position.x < 0){
+            cerr << "DENGERDENGER3" << endl;
+            cerr << myMove.from << *myMove.touched.begin() << endl;
+            cerr << myMove.to << *myMove.touched.end() << endl;
+          }*/
           if (rv.position.y >= course.length
             || !none_of(enMove.touched.begin(), enMove.touched.end(),
                     [rs, course](Position s) {
@@ -286,6 +310,9 @@ static void bfs(const RaceInfo& rs, const RaceCourse& course)
   for (int y = ymax + 1; y < course.length + course.vision; y++) {
 	  for (int x = 0; x < course.width; x++) {
 		  bfsed[Point(x, y)] = bfsed[Point(x, y - 1)] - 15;
+      if (y - 1 < course.length && rs.squares[y - 1][x] == MAYBE_OBSTACLE) {
+        bfsed[Point(x, y - 1)] = bfsed[Point(x, y - 1)] + 100;
+      }
 	  }
   }
   for (int y = ymax - 1; y > - 10; --y) {
@@ -344,12 +371,12 @@ static void bfs(const RaceInfo& rs, const RaceCourse& course)
 	  }
   }
 
-  /*
-  for(int y = - 9; y < course.length + course.vision; ++y)
+  /*for(int y = - 9; y < course.length + course.vision; ++y)
   {
     for(int x = 0; x < course.width; ++x)
     {
-      cerr << bfsed[Point(x, y)] << " ";
+      cerr << setw(5) << bfsed[Point(x, y)];
+      cerr << "";
     }
     cerr << endl;
   }
@@ -363,8 +390,10 @@ static IntVec play(const RaceInfo& rs, const RaceCourse& course) {
   bfs(rs, course);
   History hist(SEARCH_DEPTH);
   auto p = alpha_beta(rs, course, { rs.me.position, rs.me.velocity }, { rs.opponent.position, rs.opponent.velocity }, hist);
+  cerr << "score : " << p.first << endl;
   if (p.first == -INF) {
     // If my player will be stuck, use greedy.
+    cerr << "No alpha" << endl;
     return find_movable(rs, course);
   }
   return p.second;
