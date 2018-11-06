@@ -16,6 +16,7 @@ struct IntVec {
 typedef IntVec Position;
 typedef IntVec Velocity;
 typedef IntVec Acceleration;
+typedef IntVec Point;
 struct RaceCourse {
   uint64_t thinkTime;
   int stepLimit;
@@ -27,10 +28,17 @@ extern RaceCourse course;
 
 struct Movement {
   Position from, to;
+  list<Position> touched;
   bool goesOff(RaceCourse &course);
+  bool goesThru(const Point &p) const;
+  bool intersects(const Movement& l) const;
   list <Position> touchedSquares() const;
-  Movement(Position from, Position to): from(from), to(to) {};
+  Movement(Position from, Position to): from(from), to(to) {
+    touched=touchedSquares();
+  };
 };
+
+enum ObstState { UNKNOWN=-1, OBSTACLE=1, PUDDLE=2, MAYBE_OBSTACLE=3, NONE=0};
 
 struct PlayerState {
   Position position;

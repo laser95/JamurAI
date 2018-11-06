@@ -1,4 +1,5 @@
 #include <cmath>
+#include <algorithm>
 #include "raceInfo.hpp"
 
 IntVec IntVec::operator+(IntVec &another) {
@@ -33,6 +34,30 @@ void addSquares(int x, int y0, int y1, list <Position> &squares) {
   }
 }
 
+bool Movement::goesThru(const Point &p) const {
+  return !none_of(touched.begin(),touched.end(),[p](Position s){return s==p;});
+}
+
+bool Movement::intersects(const Movement& l) const {
+  int minx = min(from.x, to.x);
+  int maxx = max(from.x, to.x);
+  int minlx = min(l.from.x, l.to.x);
+  int maxlx = max(l.from.x, l.to.x);
+  if (maxx < minlx || maxlx < minx ) return false;
+  int miny = min(from.y, to.y);
+  int maxy = max(from.y, to.y);
+  int minly = min(l.from.y, l.to.y);
+  int maxly = max(l.from.y, l.to.y);
+  if (maxy < minly || maxly < miny ) return false;
+  int d1 = (from.x-l.from.x)*(l.to.y-l.from.y)-(from.y-l.from.y)*(l.to.x-l.from.x);
+  int d2 = (to.x-l.from.x)*(l.to.y-l.from.y)-(to.y-l.from.y)*(l.to.x-l.from.x);
+  if (d1*d2 > 0) return false;
+  int d3 = (l.from.x-from.x)*(to.y-from.y)-(l.from.y-from.y)*(to.x-from.x);
+  int d4 = (l.to.x-from.x)*(to.y-from.y)-(l.to.y-from.y)*(to.x-from.x);
+  if (d3*d4 > 0) return false;
+  return true;
+}
+
 list <Position> Movement::touchedSquares() const {
   list <Position> r;
   int dx = to.x - from.x;
@@ -40,11 +65,11 @@ list <Position> Movement::touchedSquares() const {
   int sgnx = dx > 0 ? 1 : -1;
   int sgny = dy > 0 ? 1 : -1;
   if (dx == 0) {
-    for (int k = 0, y = from.y; k <= dy; k++, y += sgny) {
+    for (int k = 0, y = from.y; k <= dy*sgny; k++, y += sgny) {
       r.emplace_back(from.x, y);
     }
   } else if (dy == 0) {
-    for (int k = 0, x = from.x; k <= dx; k++, x += sgnx) {
+    for (int k = 0, x = from.x; k <= dx*sgnx; k++, x += sgnx) {
       r.emplace_back(x, from.y);
     }
   } else {
