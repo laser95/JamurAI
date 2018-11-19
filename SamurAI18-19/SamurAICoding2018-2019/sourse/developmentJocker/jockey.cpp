@@ -287,22 +287,22 @@ static void bfs(const RaceInfo& rs, const RaceCourse& course)
   bfsed.clear();
   int ymax;
   if(rs.me.position.y > rs.opponent.position.y){
-	  ymax = rs.me.position.y + course.vision;
+	  ymax = rs.me.position.y + course.vision - 1;
   }
   else{
-	  ymax = rs.opponent.position.y + course.vision;
+	  ymax = rs.opponent.position.y + course.vision - 1;
   }
   if(ymax >= course.length)ymax = course.length - 1;
-  for (int x = 0; x < course.width; ++x) {
-	  if (rs.squares[ymax][x] == OBSTACLE || (x > 0 && rs.squares[ymax][x - 1] == NONE) || rs.squares[ymax][x - 1] == PUDDLE) {
+  for (int x = 0; x < course.width; x++) {
+	  if (rs.squares[ymax][x] == OBSTACLE || (x > 0 && (rs.squares[ymax][x - 1] == NONE || rs.squares[ymax][x - 1] == PUDDLE))) {
 		  continue;
 	  }
-	  if ((rs.squares[ymax][x] == NONE || rs.squares[ymax][x] == PUDDLE) && rs.squares[ymax][x - 1] == OBSTACLE) {
+	  if ((rs.squares[ymax][x] == NONE || rs.squares[ymax][x] == PUDDLE) && (rs.squares[ymax][x - 1] == OBSTACLE || x - 1 < 0)) {
 		  int x1 = x + 1;
-		  while ((rs.squares[ymax][x1] == NONE || rs.squares[ymax][x1] == PUDDLE) && x1 < course.width + 1) {
+		  while ((rs.squares[ymax][x1] == NONE || rs.squares[ymax][x1] == PUDDLE) && x1 < course.width) {
 			  x1 = x1 + 1;
 		  }
-		  for (int x2 = x; x2 < x1; ++x2) {
+		  for (int x2 = x; x2 < x1; x2++) {
 			  bfsed[Point(x2, ymax)] = course.width - min(x2 - x, x1 - x2 - 1);
 		  }
 	  }
@@ -310,9 +310,9 @@ static void bfs(const RaceInfo& rs, const RaceCourse& course)
   for (int y = ymax + 1; y < course.length + course.vision; y++) {
 	  for (int x = 0; x < course.width; x++) {
 		  bfsed[Point(x, y)] = bfsed[Point(x, y - 1)] - 15;
-      if (y - 1 < course.length && rs.squares[y - 1][x] == MAYBE_OBSTACLE) {
-        bfsed[Point(x, y - 1)] = bfsed[Point(x, y - 1)] + 100;
-      }
+		  if (y - 1 < course.length && rs.squares[y - 1][x] == MAYBE_OBSTACLE) {
+			  bfsed[Point(x, y - 1)] = bfsed[Point(x, y - 1)] + 100;
+		  }
 	  }
   }
   for (int y = ymax - 1; y > - 10; --y) {
@@ -379,8 +379,8 @@ static void bfs(const RaceInfo& rs, const RaceCourse& course)
       cerr << "";
     }
     cerr << endl;
-  }
-  */
+  }*/
+  
 
 
 }
