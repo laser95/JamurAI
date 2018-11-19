@@ -308,7 +308,10 @@ static void bfs(const RaceInfo& rs, const RaceCourse& course)
 	  }
   }
   for (int x = 0; x < course.width; x++) {
-	  bfsed[Point(x, ymax + 1)] = course.width - 15;
+	  bfsed[Point(x, ymax + 1)] = bfsed[Point(x, ymax)] - 15;
+	  if (rs.squares[ymax][x] == OBSTACLE) {
+		  bfsed[Point(x, ymax + 1)] = course.width - 15;
+	  }
   }
   for (int y = ymax + 2; y < course.length + course.vision; y++) {
 	  for (int x = 0; x < course.width; x++) {
