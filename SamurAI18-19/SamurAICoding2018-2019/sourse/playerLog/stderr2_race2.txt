@@ -1,267 +1,102 @@
 [system] Try: hand shake
-[system] spend time: 13, remain: 119987
+[system] spend time: 7, remain: 119993
 [system] Success!: hand shake
 [system] ================================
 [system] turn: 0
 [system] spend time: 271, remain: 119729
 [system] ================================
 [system] turn: 1
-[system] spend time: 435, remain: 119023
+[system] spend time: 219, remain: 119239
 [system] ================================
 [system] turn: 2
-[system] spend time: 239, remain: 118349
+[system] spend time: 256, remain: 118764
 [system] ================================
 [system] turn: 3
-[system] spend time: 323, remain: 117787
+[system] spend time: 315, remain: 118193
 [system] ================================
 [system] turn: 4
-[system] spend time: 359, remain: 117105
+[system] spend time: 175, remain: 117703
 [system] ================================
 [system] turn: 5
-[system] spend time: 0, remain: 116746
+[system] spend time: 143, remain: 117385
 [system] ================================
 [system] turn: 6
-[system] spend time: 91, remain: 116655
+[system] spend time: 191, remain: 117051
 [system] ================================
 [system] turn: 7
-[system] spend time: 27, remain: 116537
+[system] spend time: 71, remain: 116789
 [system] ================================
 [system] turn: 8
-[system] spend time: 79, remain: 116431
+[system] spend time: 127, remain: 116591
 [system] ================================
 [system] turn: 9
-[system] spend time: 187, remain: 116165
+[system] spend time: 179, remain: 116285
 [system] ================================
 [system] turn: 10
-[system] spend time: 315, remain: 115663
+[system] spend time: 287, remain: 115819
 [system] ================================
 [system] turn: 11
-[system] spend time: 143, remain: 115205
+[system] spend time: 339, remain: 115193
 [system] ================================
 [system] turn: 12
-[system] spend time: 131, remain: 114931
+[system] spend time: 259, remain: 114595
 [system] ================================
 [system] turn: 13
-[system] spend time: 227, remain: 114573
+[system] spend time: 183, remain: 114153
 [system] ================================
 [system] turn: 14
-[system] spend time: 323, remain: 114023
+[system] spend time: 19, remain: 113951
 [system] ================================
 [system] turn: 15
-[system] spend time: 415, remain: 113285
+[system] spend time: 15, remain: 113917
 [system] ================================
 [system] turn: 16
-[system] spend time: 515, remain: 112355
+[system] spend time: 19, remain: 113883
 [system] ================================
 [system] turn: 17
-[system] spend time: 279, remain: 111561
+[system] spend time: 19, remain: 113845
 [system] ================================
 [system] turn: 18
-[system] spend time: 367, remain: 110915
+[system] spend time: 20, remain: 113806
 [system] ================================
 [system] turn: 19
-[system] spend time: 427, remain: 110121
+[system] spend time: 36, remain: 113750
 [system] ================================
 [system] turn: 20
-[system] spend time: 0, remain: 109694
+[system] spend time: 43, remain: 113671
 [system] ================================
 [system] turn: 21
-[system] spend time: 111, remain: 109583
+[system] spend time: 79, remain: 113549
 [system] ================================
 [system] turn: 22
-[system] spend time: 183, remain: 109289
+[system] spend time: 147, remain: 113323
 [system] ================================
 [system] turn: 23
-[system] spend time: 47, remain: 109059
+[system] spend time: 87, remain: 113089
 [system] ================================
 [system] turn: 24
-[system] spend time: 76, remain: 108936
+[system] spend time: 111, remain: 112891
 [system] ================================
 [system] turn: 25
-[system] spend time: 87, remain: 108773
+[system] spend time: 87, remain: 112693
 [system] ================================
 [system] turn: 26
-[system] spend time: 143, remain: 108543
+[system] spend time: 55, remain: 112551
 [system] ================================
 [system] turn: 27
-[system] spend time: 155, remain: 108245
+[system] spend time: 75, remain: 112421
 [system] ================================
 [system] turn: 28
-[system] spend time: 311, remain: 107779
+[system] spend time: 111, remain: 112235
 [system] ================================
 [system] turn: 29
-[system] spend time: 451, remain: 107017
+[system] spend time: 79, remain: 112045
 [system] ================================
 [system] turn: 30
-[system] spend time: 36, remain: 106530
+[system] spend time: 4, remain: 111962
 [system] ================================
 [system] turn: 31
-[system] spend time: 32, remain: 106462
-[system] ================================
-[system] turn: 32
-[system] spend time: 36, remain: 106394
-[system] ================================
-[system] turn: 33
-[system] spend time: 75, remain: 106283
-[system] ================================
-[system] turn: 34
-[system] spend time: 52, remain: 106156
-[system] ================================
-[system] turn: 35
-[system] spend time: 55, remain: 106049
-[system] ================================
-[system] turn: 36
-[system] spend time: 35, remain: 105959
-[system] ================================
-[system] turn: 37
-[system] spend time: 79, remain: 105845
-[system] ================================
-[system] turn: 38
-[system] spend time: 171, remain: 105595
-[system] ================================
-[system] turn: 39
-[system] spend time: 271, remain: 105153
-[system] ================================
-[system] turn: 40
-[system] spend time: 423, remain: 104459
-[system] ================================
-[system] turn: 41
-[system] spend time: 423, remain: 103613
-[system] ================================
-[system] turn: 42
-[system] spend time: 263, remain: 102927
-[system] ================================
-[system] turn: 43
-[system] spend time: 303, remain: 102361
-[system] ================================
-[system] turn: 44
-[system] spend time: 339, remain: 101719
-[system] ================================
-[system] turn: 45
-[system] spend time: 0, remain: 101380
-[system] ================================
-[system] turn: 46
-[system] spend time: 43, remain: 101337
-[system] ================================
-[system] turn: 47
-[system] spend time: 35, remain: 101259
-[system] ================================
-[system] turn: 48
-[system] spend time: 39, remain: 101185
-[system] ================================
-[system] turn: 49
-[system] spend time: 63, remain: 101083
-[system] ================================
-[system] turn: 50
-[system] spend time: 115, remain: 100905
-[system] ================================
-[system] turn: 51
-[system] spend time: 147, remain: 100643
-[system] ================================
-[system] turn: 52
-[system] spend time: 163, remain: 100333
-[system] ================================
-[system] turn: 53
-[system] spend time: 239, remain: 99931
-[system] ================================
-[system] turn: 54
-[system] spend time: 407, remain: 99285
-[system] ================================
-[system] turn: 55
-[system] spend time: 467, remain: 98411
-[system] ================================
-[system] turn: 56
-[system] spend time: 0, remain: 97944
-[system] ================================
-[system] turn: 57
-[system] spend time: 115, remain: 97829
-[system] ================================
-[system] turn: 58
-[system] spend time: 151, remain: 97563
-[system] ================================
-[system] turn: 59
-[system] spend time: 239, remain: 97173
-[system] ================================
-[system] turn: 60
-[system] spend time: 431, remain: 96503
-[system] ================================
-[system] turn: 61
-[system] spend time: 115, remain: 95957
-[system] ================================
-[system] turn: 62
-[system] spend time: 199, remain: 95643
-[system] ================================
-[system] turn: 63
-[system] spend time: 359, remain: 95085
-[system] ================================
-[system] turn: 64
-[system] spend time: 515, remain: 94211
-[system] ================================
-[system] turn: 65
-[system] spend time: 87, remain: 93609
-[system] ================================
-[system] turn: 66
-[system] spend time: 175, remain: 93347
-[system] ================================
-[system] turn: 67
-[system] spend time: 255, remain: 92917
-[system] ================================
-[system] turn: 68
-[system] spend time: 379, remain: 92283
-[system] ================================
-[system] turn: 69
-[system] spend time: 419, remain: 91485
-[system] ================================
-[system] turn: 70
-[system] spend time: 379, remain: 90687
-[system] ================================
-[system] turn: 71
-[system] spend time: 271, remain: 90037
-[system] ================================
-[system] turn: 72
-[system] spend time: 235, remain: 89531
-[system] ================================
-[system] turn: 73
-[system] spend time: 275, remain: 89021
-[system] ================================
-[system] turn: 74
-[system] spend time: 271, remain: 88475
-[system] ================================
-[system] turn: 75
-[system] spend time: 219, remain: 87985
-[system] ================================
-[system] turn: 76
-[system] spend time: 187, remain: 87579
-[system] ================================
-[system] turn: 77
-[system] spend time: 187, remain: 87205
-[system] ================================
-[system] turn: 78
-[system] spend time: 123, remain: 86895
-[system] ================================
-[system] turn: 79
-[system] spend time: 95, remain: 86677
-[system] ================================
-[system] turn: 80
-[system] spend time: 107, remain: 86475
-[system] ================================
-[system] turn: 81
-[system] spend time: 119, remain: 86249
-[system] ================================
-[system] turn: 82
-[system] spend time: 103, remain: 86027
-[system] ================================
-[system] turn: 83
-[system] spend time: 39, remain: 85885
-[system] ================================
-[system] turn: 84
-[system] spend time: 35, remain: 85811
-[system] ================================
-[system] turn: 85
-[system] spend time: 15, remain: 85761
-[system] ================================
-[system] turn: 86
-[system] spend time: 11, remain: 85735
+[system] spend time: 0, remain: 111958
 [system] terminate your AI: "greedy"
 [system] 	error code: 0
 [system] 	message: "No error
