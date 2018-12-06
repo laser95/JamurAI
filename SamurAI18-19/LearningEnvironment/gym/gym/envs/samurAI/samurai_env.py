@@ -11,12 +11,15 @@ class SamuraiEnv(gym.Env):
 		self.action_space = gym.spaces.Discrete(9)
 
 		#観測空間(俺らが見たい世界...jockyのpositionとvelocity)
-		#速度の上限、下限はとりあえず10,-10で(ステージごとに計算したほうがいい？)
 		#positionの上限はルール通り19,99
 		#下限は0,-無限だが、とりあえず、0,-10で
-		high = np.array[[10,10],[19,99]]
-		low = np.array[[-10,-10],[0,-10]]
-		self.observation_space = gym.spaces.Box(low=-high, high=high)
+		#速度の上限、下限はとりあえず10,-10で(ステージごとに計算したほうがいい？)
+		high = np.array[[19,99],[10,10]]
+		low = np.array[[0,-10],[-10,-10]]
+		self.observation_space = gym.spaces.Box(low,high)
 
 		#_reset呼び出し
 		self.reset()
+
+
+	def _reset(self):
