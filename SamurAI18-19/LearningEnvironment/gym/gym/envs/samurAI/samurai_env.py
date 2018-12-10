@@ -4,9 +4,11 @@ import gym.spaces
 import subprocess
 import json
 import sys
+import math
 
 # マップ上のjockyの加速度を操作として、ゴールに移動させることを目標とする環境
 class SamuraiEnv(gym.Env):
+
 
 	def _init_(self):
 
@@ -29,6 +31,84 @@ class SamuraiEnv(gym.Env):
 
 		#_reset呼び出し
 		self.reset()
+
+	def _step(self,action):
+		#actionを加速度と紐づけ
+		if action == 0: 
+            acc = np.array([-1,-1])
+        elif action == 1:
+            acc = np.array([-1,0])
+        elif action == 2:
+            acc = np.array([-1,1])
+        elif action == 3:
+            acc = np.array([0,-1])
+        elif action == 4:
+            acc = np.array([0,0])
+        elif action == 5:
+            acc = np.array([0,1])
+        elif action == 6:
+            acc = np.array([1,-1])
+        elif action == 7:
+            acc = np.array([1,0])
+        elif action == 8:
+            acc = np.array([1,1])  
+
+        next_vel = self._vel + acc #予定速度
+        next_pos = self._pos + self.next_vel #予定位置
+
+
+        '''
+			0...none
+			1...obsta
+			2...pool
+			next 2 position=nextPosi
+				   vel = [0,0]
+		    next 1 position = position
+		           vel = [0,0]
+			→動けない時も上記と同じ
+        '''
+        if self._movable(self._pos,self.next_pos): 
+        	if self.map[self.next_pos[1]][self.next_pos[0]] == 0:
+	        	self._vel = self.next_vel
+	        	self._pos = self.next_pos
+	        if self.map[self.next_pos[1]][self.next_pos[0]] == 2:
+	        	self._pos = self.next_pos
+	        	self._vel = [0,0]
+        else :
+        	self._vel = np.array([0,0])
+        	self._pos = self._pos
+
+    	done = self._is_done(_pos,next_pos)
+
+    	#ゴールしたら1,それ以外はゴールにy軸
+    	if done:
+    		reward = 1.0
+    	else:
+    		reward = 1.0 * self._pos[1]/goolY
+
+
+
+    	#取り得る最大のマップを定義, 全て1(壁)で指定
+		big_map = np.empty((100, 20)) 
+
+		#指定されたマップを-1(未知)で指定
+		big_map[0:self.length, 0:self.width] = -1
+
+		#指定されたマップのy軸の範囲外を-2(ゴール以降)で指定
+		big_map[self.length:99, 0:19] = -2
+	
+		#指定されたマップ範囲外を-3(コース外)で指定
+		big_map[:, self.width+1:19] = -3  
+		
+		step = 0 
+		# ゴールするまで、毎stepでbig_mapを取得
+		while self._pos[1] < self.length:
+			vision = self._pos[1] + self.vision
+			big_map[0:vision-1, 0:self.length] = self.course[0:vision-1, :]
+			step += 1
+
+
+        return {"map" : big_map, "length" : self.length, "position" : self._pos, "velocity" : self._vel},reward,done,{}
 
 
 	def _reset(self):
@@ -67,3 +147,56 @@ class SamuraiEnv(gym.Env):
 		return {"map" : self.map, "length" : self.length, "position" : self._pos, "velocity" : self._vel}
 
 	def _render(self):
+
+
+	def _movable(self,_pos,next_pos): #移動可能判定
+        r = []
+        if self.next_pos[0] == self._pos[0]:
+            addSquares(self.=pos[0], self._pos[1], self.next_pos[1], r)
+        else:
+            a = (self.next_pos[1] - self._pos[1]) / (self.next_pos[0] - self._pos[0])
+            sgnx = 1 if self._pos[0] < self.next_pos[0] else -1
+            y1 = a * sgnx / 2.0 + self._pos[1] + 0.5
+            iy1 = (math.floor(y1) if self.next_pos[1] > self._pos[1]
+                   else math.ceil(y1) - 1)
+            addSquares(self._pos[0], self._pos[1], iy1, r)
+            for x in range(self._pos[0] + sgnx, self.next_pos[0], sgnx):
+                y0 = a * (x - self._pos[0] - sgnx / 2) + self._pos[1] + 0.5
+                y1 = a * (x - self._pos[0] + sgnx / 2) + self._pos[1] + 0.5
+                if self.next_pos[1] > self._pos[1]:
+                    iy0, iy1 = math.ceil(y0) - 1, math.floor(y1)
+                else:
+                    iy0, iy1 = math.floor(y0), math.ceil(y1) - 1
+                addSquares(x, iy0, iy1, r)
+            y0 = a * (self.next_pos[0] - self._pos[0] - sgnx / 2) + self._pos[1] + 0.5
+            iy0 = (math.ceil(y0) - 1 if self.next_pos[1] > self._pos[1]
+                   else math.floor(y0))
+            addSquares(self.next_pos[0], iy0, self.next_pos[1], r)
+
+		return (0 <= self._pos[0] < self.width 
+				and not any(0 <= s.y and s.y < self.length and
+                                self.map[s.y][s.x] == 1 for s in r))
+
+	def addSquares(x, y0, y1, squares):
+        if y1 > y0:
+            for y in range(y0, y1 + 1, 1):
+                squares.append(IntVec(x, y))
+        else:
+            for y in range(y0, y1 - 1, -1):
+                squares.append(IntVec(x, y)
+    
+    def _is_done(self,_pos,next_pos):
+        if self.next_pos[1] < self.length:
+            return False
+        
+        dx = (self.next_pos[0] - self._pos[0])
+        a = (self.next_pos[1] - self._pos[1]) / dx #傾き
+        y = math.floor(dx * a) + self._pos[1]
+        
+        while y <= self.length - 1:
+            dx = dx - 1
+            y = math.floor(dx * a) + self._pos[1]
+        next_pos2 = [self._pos[0] + dx, y]
+        
+        return self.next_pos[0] < self.width
+                and self.movable(self._pos,next_pos2) 
