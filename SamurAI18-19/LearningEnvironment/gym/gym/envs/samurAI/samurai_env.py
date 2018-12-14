@@ -73,7 +73,7 @@ class SamuraiEnv(gym.Env):
 	        	self._pos = self.next_pos
 	        if self.map[self.next_pos[1]][self.next_pos[0]] == 2:
 	        	self._pos = self.next_pos
-	        	self._vel = [0,0]
+	        	self._vel = np.array([0,0])
         else :
         	self._vel = np.array([0,0])
         	self._pos = self._pos
@@ -104,7 +104,7 @@ class SamuraiEnv(gym.Env):
 		# ゴールするまで、毎stepでbig_mapを取得
 		while self._pos[1] < self.length:
 			vision = self._pos[1] + self.vision
-			big_map[0:vision-1, 0:self.length] = self.course[0:vision-1, :]
+			big_map[0:vision-1, 0:self.width] = self.course[0:vision-1, :]
 			step += 1
 
 
@@ -152,7 +152,7 @@ class SamuraiEnv(gym.Env):
 	def _movable(self,_pos,next_pos): #移動可能判定
         r = []
         if self.next_pos[0] == self._pos[0]:
-            addSquares(self.=pos[0], self._pos[1], self.next_pos[1], r)
+            addSquares(self._pos[0], self._pos[1], self.next_pos[1], r)
         else:
             a = (self.next_pos[1] - self._pos[1]) / (self.next_pos[0] - self._pos[0])
             sgnx = 1 if self._pos[0] < self.next_pos[0] else -1
@@ -174,16 +174,16 @@ class SamuraiEnv(gym.Env):
             addSquares(self.next_pos[0], iy0, self.next_pos[1], r)
 
 		return (0 <= self._pos[0] < self.width 
-				and not any(0 <= s.y and s.y < self.length and
-                                self.map[s.y][s.x] == 1 for s in r))
+				and not any(0 <= s[1] and s[0] < self.length and
+                                self.map[s[1]][s[0]] == 1 for s in r))
 
 	def addSquares(x, y0, y1, squares):
         if y1 > y0:
             for y in range(y0, y1 + 1, 1):
-                squares.append(IntVec(x, y))
+                squares.append(np.array(x, y))
         else:
             for y in range(y0, y1 - 1, -1):
-                squares.append(IntVec(x, y)
+                squares.append(np.array(x, y))
     
     def _is_done(self,_pos,next_pos):
         if self.next_pos[1] < self.length:
