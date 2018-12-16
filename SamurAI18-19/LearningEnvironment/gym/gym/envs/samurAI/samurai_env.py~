@@ -106,7 +106,7 @@ class SamuraiEnv(gym.Env):
 			# ゴールするまで、毎stepでbig_mapを取得
 		while self._pos[1] < self.length:
 			vision = self._pos[1] + self.vision
-			big_map[0:vision-1, 0:self.width] = self.map[0:vision-1, :]
+			big_map[0:vision-1, 0:self.width] = self.course[0:vision-1, :]
 			step += 1
 
 
