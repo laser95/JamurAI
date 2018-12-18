@@ -7,3 +7,6 @@ playerLog/*
 *.d
 *.o
 *.exe
+gym.egg-info
+keras_rl.egg-info
+__pycache__
