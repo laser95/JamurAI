@@ -366,8 +366,6 @@ class EpsGreedyQPolicy(Policy):
                         action = 7
                     else:
                         action = 8
-                return action
-
             c = best
             while c.from_ != initialCand:
                 c = c.from_

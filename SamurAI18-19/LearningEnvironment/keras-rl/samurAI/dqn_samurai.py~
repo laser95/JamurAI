@@ -43,7 +43,7 @@ dqn = DQNAgent(model=model, nb_actions=nb_actions, memory=memory, nb_steps_warmu
 dqn.compile(Adam(lr=1e-3), metrics=['mae'])
 
 # 学習
-dqn.fit(env, nb_steps=50000, visualize=True, verbose=1,log_interval=1)
+dqn.fit(env, nb_steps=20000, visualize=True, verbose=1,log_interval=1)
 
 # 学習したパラメータの保存
 dqn.save_weights('dqn_{}_weights.h5f'.format(ENV_NAME), overwrite=True)
