@@ -172,8 +172,18 @@ class SamuraiEnv(gym.Env):
 		obs=np.concatenate([big_map.reshape(2000,),self.length.reshape(1,),self._pos.reshape(2,),self._vel.reshape(2,)])
 		return obs
 
-	def render(self,mode='human'):
-		pass
+	def render(self,mode='human',close=False):
+		outmap = self.map.copy()
+		outmap[self._pos[1]][self._pos[0]] = 9
+
+		outfile = sys.stdout
+		velostr = 'velocity.x:' + str(self._vel[0]) + '\nvelocity.y:' + str(self._vel[1]) + '\n'
+		mapstr = '\n'.join(''.join(
+                str(value) for value in row
+                ) for row in outmap
+            ) + '\n'
+        outfile.write(velostr + mapstr)
+        return outfile	
 
 	def seed(self):
 		pass
