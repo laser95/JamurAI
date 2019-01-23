@@ -7,6 +7,8 @@ import json
 import sys
 import math
 
+import matplotlib.pyplot as plt
+
 # マップ上のjockyの加速度を操作として、ゴールに移動させることを目標とする環境
 class SamuraiEnv(gym.Env):
 
@@ -30,6 +32,13 @@ class SamuraiEnv(gym.Env):
 			"velocity" : spaces.Box(np.array([-10,-10]),np.array([10,10]),dtype="int32")
 		})
 		self.startX=[0]*2
+
+		#for plot
+		self.reward_plot = []
+		self.x_plot = []
+		self.reward_stock = 0
+		self.all_step = 0
+
 		#_reset呼び出し
 		self.reset()
 
@@ -115,7 +124,12 @@ class SamuraiEnv(gym.Env):
 				big_map[0:vision, 0:self.width] = self.map[0:vision,:]
 
 		if self.step_limit <= self._step:
-			done=True		
+			done=True
+
+		#for plot
+		self.reward_stock += reward
+		self.all_step += 1
+		
 
 		#return {"map" : big_map, "length" : self.length, "position" : self._pos, "velocity" : self._vel},reward,done,{}
 		return np.concatenate([big_map.reshape(2000,),self.length.reshape(1,),self._pos.reshape(2,),self._vel.reshape(2,)]),reward,done,{}
@@ -167,7 +181,19 @@ class SamuraiEnv(gym.Env):
 		big_map[0:vision, 0:self.width] = self.map[0:vision,:]
 		big_map[0:self.length,0:self.width]=self.map
 
-		print('\nlength : '+str(self.length)+', width : '+str(self.width)+', vision : '+str(self.vision))		
+		print('\nlength : '+str(self.length)+', width : '+str(self.width)+', vision : '+str(self.vision))
+
+
+		#plot
+		self.reward_plot.append(self.reward_stock)
+		self.x_plot.append(len(self.reward_plot))
+		plt.plot(self.x_plot,self.reward_plot,color='blue')
+		plt.title("Learning curve")
+		plt.xlabel("Episode")
+		plt.ylabel("Reward")
+		plt.pause(0.1)
+		self.reward_stock = 0
+	
 		
 		obs=np.concatenate([big_map.reshape(2000,),self.length.reshape(1,),self._pos.reshape(2,),self._vel.reshape(2,)])
 		return obs
@@ -182,8 +208,8 @@ class SamuraiEnv(gym.Env):
                 str(value) for value in row
                 ) for row in outmap
             ) + '\n'
-        outfile.write(velostr + mapstr)
-        return outfile	
+		outfile.write(velostr + mapstr)
+		return outfile	
 
 	def seed(self):
 		pass
