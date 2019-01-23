@@ -11,6 +11,8 @@ from rl.agents.dqn import DQNAgent
 from rl.policy import EpsGreedyQPolicy
 from rl.memory import SequentialMemory
 
+import matplotlib.pyplot as plt
+
 ENV_NAME = 'SamurAI-v0'
 
 env = gym.make(ENV_NAME)
@@ -44,6 +46,13 @@ dqn.compile(Adam(lr=1e-3), metrics=['mae'])
 
 # 学習
 dqn.fit(env, nb_steps=1000, visualize=True, verbose=1,log_interval=1)
+
+#plot
+plt.plot(env.x_plot,env.reward_plot,color='blue')
+plt.title("Learning curve")
+plt.xlabel("Episode")
+plt.ylabel("Reward")
+plt.show()
 
 # 学習したパラメータの保存
 dqn.save_weights('dqn_{}_weights.h5f'.format(ENV_NAME), overwrite=True)
