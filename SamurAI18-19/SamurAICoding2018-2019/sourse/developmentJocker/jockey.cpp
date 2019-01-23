@@ -91,7 +91,7 @@ static pair<long long, IntVec> alpha_beta(const RaceInfo& rs, const RaceCourse& 
 	int roop_count = 0;
 	for (int mx = -1 * priority; roop_count < 3; mx += priority) {
 	  roop_count++;
-      long long gamma = beta;
+    long long gamma = beta;
 	  int rv_priority = 1;
 	  if (rv.position.x <= left_border)rv_priority = -1;
       for (int ey = 1; -1 <= ey; --ey) {
@@ -395,7 +395,9 @@ static IntVec play(const RaceInfo& rs, const RaceCourse& course) {
   memo.clear();
   bfs(rs, course);
   History hist(SEARCH_DEPTH);
+  //cerr << "BB" << endl;
   auto p = alpha_beta(rs, course, { rs.me.position, rs.me.velocity }, { rs.opponent.position, rs.opponent.velocity }, hist);
+  //cerr << "CC" << endl;
   cerr << "score : " << p.first << endl;
   if (p.first == -INF) {
     // If my player will be stuck, use greedy.
@@ -410,13 +412,14 @@ int main(int, char *[]) {
   cout << "0" << endl;
   cout.flush();
   left_border = (int)((course.width - 1) / 3);
-  RaceInfo rs;
   IntVec accel;
-  while (true) {
+  while (!cin.eof()) {
+    RaceInfo rs;
     cin >> rs;
     if(rs.stepNumber > 0){
       rs.SquaresOutOfView(accel);
     }
+    //cerr << "AA" << endl;
     accel = play(rs, course);
     cout << accel.x << ' ' << accel.y << endl;
     cout.flush();
