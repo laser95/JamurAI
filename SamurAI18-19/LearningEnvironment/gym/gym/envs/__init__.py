@@ -1,9 +1,20 @@
 from gym.envs.registration import registry, register, make, spec
 
 register(
-		id='SamurAI-v0',
-		entry_point='gym.envs.samurAI:SamuraiEnv',
+    id='SamurAI-v0',
+    entry_point='gym.envs.samurAI:SamuraiEnv',
 )
+
+register(
+    id='SamurAI-v1',
+    entry_point='gym.envs.samurAI:SamuraiEnvBigmap',
+)
+
+register(
+    id='SamurAI-v2',
+    entry_point='gym.envs.samurAI:SamuraiEnvCropmap',
+)
+
 # Algorithmic
 # ----------------------------------------
 
