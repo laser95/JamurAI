@@ -6,7 +6,7 @@ name2="greedy"
 win=0
 lose=0
 aiko=0
-for ((i=0 ; i<1 ; i++))
+for ((i=0 ; i<1000 ; i++))
 do
 echo $i"-1回目"
 python3 course_generator/course_generator.py > course/course${i}.crs
