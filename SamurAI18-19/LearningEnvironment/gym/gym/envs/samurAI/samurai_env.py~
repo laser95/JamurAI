@@ -199,6 +199,7 @@ class SamuraiEnv(gym.Env):
 		return obs
 
 	def render(self,mode='human',close=False):
+		'''
 		outmap = self.map.copy()
 		outmap[self._pos[1]][self._pos[0]] = 9
 
@@ -210,6 +211,8 @@ class SamuraiEnv(gym.Env):
             ) + '\n'
 		outfile.write(velostr + mapstr)
 		return outfile	
+		'''
+		pass
 
 	def seed(self):
 		pass
