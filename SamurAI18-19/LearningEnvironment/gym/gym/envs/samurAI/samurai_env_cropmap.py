@@ -35,22 +35,28 @@ class SamuraiEnvCropmap(gym.Env):
 		self.all_step=0
 		self.goal_count=0.0
 
-		self.graph_fig=plt.figure()
+		self.graph_fig=plt.figure(figsize=(10,6))
 		self.ax1=self.graph_fig.add_subplot(111)
 		self.hl1,=self.ax1.plot(self.x_plot,self.reward_plot,'C0',linewidth=0.5,label='reward')
 		self.ax2=self.ax1.twinx()
-		self.hl2,=self.ax2.plot([0],[0],'C1',linewidth=1.0,label='goal ratio')
+		self.hl2,=self.ax2.plot([0],[0],'C1',linewidth=3.0,label='goal ratio')
 		self.ax1.set_xlabel('episode')
 		self.ax1.set_ylabel('reward')
-		self.ax1.grid(True)
+		plt.yticks([0,5,10,15,20])
+		#self.ax1.grid(True)
 		self.graph_fig.legend()
 		self.ax2.set_ylabel('goal ratio')
 		self.ax2.set_ylim(-.1,1.1)
+		self.ax2.grid(True,color='gray',linestyle=':')
+		plt.yticks([0.0,.1,.2,.3,.4,.5,.6,.7,.8,.9,1.0])
 		
 		plt.title('Learning Curve')
 		
 		self.imgf = True
 		self.img_fig=None
+
+		self.course_count=0
+		self.generate_flag=True
 
 		#_reset呼び出し
 		self.reset()
@@ -84,6 +90,7 @@ class SamuraiEnvCropmap(gym.Env):
 		done = self._is_done(self._pos,next_pos)
 
 		pre_pos=self._pos
+		pre_vel=self._vel
 		if self._movable(self._pos,next_pos): 
 			if next_pos[1]<0 or (not done and next_pos[1]<self.length and self.map[next_pos[1]][next_pos[0]] == 0):
 				self._vel = next_vel
@@ -109,7 +116,8 @@ class SamuraiEnvCropmap(gym.Env):
 		
 		if done:
 			self.crop_map[10:30,0:self.width]=-2
-			self.crop_map[0:10-(self._pos[1]-self.length),0:self.width]=self.map[backward_limit:self.length,:]
+			if self._pos[1]-self.length <= 10:
+				self.crop_map[0:10-(self._pos[1]-self.length),0:self.width]=self.map[backward_limit:self.length,:]
 			self.crop_map[10-(self._pos[1]-self.length):10,0:self.width]=-2
 			forward_limit=0
 		elif backward_limit > 0:
@@ -171,10 +179,10 @@ class SamuraiEnvCropmap(gym.Env):
 			#reward = max((self._pos[1]-pre_pos[1])/self.length,-0.05)*5
 			reward = max((self._pos[1]-pre_pos[1])/50,-0.05)*5
 		
-		#if np.allclose(self._pos,pre_pos):
-		#	reward -= .005
+		if np.allclose(self._pos,pre_pos) and np.allclose(self._vel,pre_vel):
+			reward -= .005
 		
-		print('                 setp : {0}, goal : {1},  pos : ( {2} , {3} ) '.format(self._step,self.length,self._pos[0],self._pos[1]))
+		print('                 setp : {0}, goal : {1},  pos : ( {2} , {3} ), acc : {4} '.format(self._step,self.length,self._pos[0],self._pos[1],acc))
 		if self.step_limit <= self._step and not done:
 			done=True
 			#self.score=2*self._step
@@ -187,12 +195,21 @@ class SamuraiEnvCropmap(gym.Env):
 
 
 	def reset(self):
-		#コースを生成
-		generator_path = "course_generator/course_generator.py"
-		subprocess.call("python3 %s > course/course.crs" % generator_path,shell=True)
+		self.course_count += 1
+		self.course_count = self.course_count % 100
+		if self.course_count == 0:
+			if self.goal_count >=70:
+				self.generate_flag=True
+			else:
+				self.generate_flag=False
 
-		course_path = "course/course.crs"
-		#course_path = "course/666.crs"
+		if self.generate_flag:
+		#コースを生成
+			generator_path = "course_generator/course_generator.py"
+			subprocess.call("python3 %s > course/course_{}.crs".format(self.course_count) % generator_path,shell=True)
+
+		course_path = "course/course_{}.crs".format(self.course_count)
+		
 		json_file = open(course_path, 'r')
 		json_obj = json.load(json_file)
 		if not json_obj['filetype'] == 'race course 2018':
@@ -202,7 +219,7 @@ class SamuraiEnvCropmap(gym.Env):
 		self.width = json_obj['width']
 		self.length = json_obj['length']
 		self.vision = json_obj['vision']
-		self.step_limit=json_obj['stepLimit']
+		self.step_limit=json_obj['stepLimit']+20
 		self.startX[0] = json_obj['x0']
 		self.startX[1] = json_obj['x1']
 		self.map = np.reshape(json_obj['squares'], (self.length, self.width))
@@ -246,7 +263,8 @@ class SamuraiEnvCropmap(gym.Env):
 			plt.xlim(0,len(self.x_plot))
 			if min(self.reward_plot) != max(self.reward_plot):
 				#plt.ylim(min(self.reward_plot)*1.1,max(self.reward_plot)*1.1)
-				self.ax1.set_ylim(max(min(self.reward_plot)*1.1,-5),max(self.reward_plot)*1.1)
+				#self.ax1.set_ylim(max(min(self.reward_plot)*1.1,-5),max(self.reward_plot)*1.1)
+				self.ax1.set_ylim(-2,22)
 				plt.pause(0.01)
 				#plt.draw()
 			if len(self.x_plot) % 100 == 0:
@@ -265,7 +283,7 @@ class SamuraiEnvCropmap(gym.Env):
 		img=np.zeros((30,20,3)).astype(np.int32)
 		
 		img[np.where(map==-3)]=[0,0,0]
-		img[np.where(map==-2)]=[0,0,0]
+		img[np.where(map==-2)]=[30,90,30]
 		img[np.where(map==-1)]=[200,250,205]
 		img[np.where(map==0)]=[130,200,110]
 		img[np.where(map==1)]=[100,70,40]
