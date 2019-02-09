@@ -10,3 +10,6 @@ playerLog/*
 gym.egg-info
 keras_rl.egg-info
 __pycache__
+samurAI/*.csv
+samurAI/*.jpg
+samurAI/*.h5f
